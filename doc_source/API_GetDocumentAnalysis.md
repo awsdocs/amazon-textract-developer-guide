@@ -120,7 +120,7 @@ Type: [DocumentMetadata](API_DocumentMetadata.md) object
  ** [JobStatus](#API_GetDocumentAnalysis_ResponseSyntax) **   <a name="Textract-GetDocumentAnalysis-response-JobStatus"></a>
 The current status of the text detection job\.  
 Type: String  
-Valid Values:` IN_PROGRESS | SUCCEEDED | FAILED | PARTIAL_SUCCESS` 
+Valid Values:` IN_PROGRESS | SUCCEEDED | FAILED` 
 
  ** [NextToken](#API_GetDocumentAnalysis_ResponseSyntax) **   <a name="Textract-GetDocumentAnalysis-response-NextToken"></a>
 If the response is truncated, Amazon Textract returns this token\. You can use this token in the subsequent request to retrieve the next set of text detection results\.  

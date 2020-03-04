@@ -1,7 +1,7 @@
 # Amazon Textract Developer Guide
 
 -----
-*****Copyright &copy; 2019 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
+*****Copyright &copy; 2020 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
 
 -----
 Amazon's trademarks and trade dress may not be used in 
@@ -46,6 +46,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Exporting Tables into a CSV File](examples-export-table-csv.md)
    + [Creating an AWS Lambda Function](lambda.md)
    + [Other Examples](other-examples.md)
++ [Using Amazon Augmented AI (Preview) with Amazon Textract](a2i-textract.md)
 + [Amazon Textract Security](security.md)
    + [Authentication and Access Control for Amazon Textract](authentication-and-access-control.md)
       + [Overview of Managing Access Permissions to Your Amazon Textract Resources](access-control-overview.md)
@@ -70,6 +71,9 @@ Amazon's trademarks and trade dress may not be used in
       + [DocumentLocation](API_DocumentLocation.md)
       + [DocumentMetadata](API_DocumentMetadata.md)
       + [Geometry](API_Geometry.md)
+      + [HumanLoopActivationOutput](API_HumanLoopActivationOutput.md)
+      + [HumanLoopConfig](API_HumanLoopConfig.md)
+      + [HumanLoopDataAttributes](API_HumanLoopDataAttributes.md)
       + [NotificationChannel](API_NotificationChannel.md)
       + [Point](API_Point.md)
       + [Relationship](API_Relationship.md)

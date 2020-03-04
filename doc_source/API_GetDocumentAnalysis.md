@@ -53,6 +53,7 @@ Required: No
 
 ```
 {
+   "[AnalyzeDocumentModelVersion](#Textract-GetDocumentAnalysis-response-AnalyzeDocumentModelVersion)": "string",
    "[Blocks](#Textract-GetDocumentAnalysis-response-Blocks)": [ 
       { 
          "[BlockType](API_Block.md#Textract-Type-Block-BlockType)": "string",
@@ -109,6 +110,9 @@ If the action is successful, the service sends back an HTTP 200 response\.
 
 The following data is returned in JSON format by the service\.
 
+ ** [AnalyzeDocumentModelVersion](#API_GetDocumentAnalysis_ResponseSyntax) **   <a name="Textract-GetDocumentAnalysis-response-AnalyzeDocumentModelVersion"></a>
+Type: String
+
  ** [Blocks](#API_GetDocumentAnalysis_ResponseSyntax) **   <a name="Textract-GetDocumentAnalysis-response-Blocks"></a>
 The results of the text\-analysis operation\.  
 Type: Array of [Block](API_Block.md) objects
@@ -129,7 +133,7 @@ Length Constraints: Minimum length of 1\. Maximum length of 255\.
 Pattern: `.*\S.*` 
 
  ** [StatusMessage](#API_GetDocumentAnalysis_ResponseSyntax) **   <a name="Textract-GetDocumentAnalysis-response-StatusMessage"></a>
-The current status of an asynchronous document\-analysis operation\.  
+Returns if the detection job could not be completed\. Contains explanation for what error occured\.  
 Type: String
 
  ** [Warnings](#API_GetDocumentAnalysis_ResponseSyntax) **   <a name="Textract-GetDocumentAnalysis-response-Warnings"></a>
@@ -169,9 +173,8 @@ For more information about using this API in one of the language\-specific AWS S
 +  [AWS SDK for \.NET](https://docs.aws.amazon.com/goto/DotNetSDKV3/textract-2018-06-27/GetDocumentAnalysis) 
 +  [AWS SDK for C\+\+](https://docs.aws.amazon.com/goto/SdkForCpp/textract-2018-06-27/GetDocumentAnalysis) 
 +  [AWS SDK for Go](https://docs.aws.amazon.com/goto/SdkForGoV1/textract-2018-06-27/GetDocumentAnalysis) 
-+  [AWS SDK for Go \- Pilot](https://docs.aws.amazon.com/goto/SdkForGoPilot/textract-2018-06-27/GetDocumentAnalysis) 
 +  [AWS SDK for Java](https://docs.aws.amazon.com/goto/SdkForJava/textract-2018-06-27/GetDocumentAnalysis) 
 +  [AWS SDK for JavaScript](https://docs.aws.amazon.com/goto/AWSJavaScriptSDK/textract-2018-06-27/GetDocumentAnalysis) 
 +  [AWS SDK for PHP V3](https://docs.aws.amazon.com/goto/SdkForPHPV3/textract-2018-06-27/GetDocumentAnalysis) 
 +  [AWS SDK for Python](https://docs.aws.amazon.com/goto/boto3/textract-2018-06-27/GetDocumentAnalysis) 
-+  [AWS SDK for Ruby V2](https://docs.aws.amazon.com/goto/SdkForRubyV2/textract-2018-06-27/GetDocumentAnalysis) 
++  [AWS SDK for Ruby V3](https://docs.aws.amazon.com/goto/SdkForRubyV3/textract-2018-06-27/GetDocumentAnalysis) 

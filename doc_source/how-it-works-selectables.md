@@ -35,13 +35,13 @@ The following JSON snippet shows the key for a key\-value pair that contains a s
         {
             "Type": "VALUE", 
             "Ids": [
-                "24aaac7f-fcce-49c7-a4f0-3688b05586d4"  Value containing Selection Element
+                "24aaac7f-fcce-49c7-a4f0-3688b05586d4"  // Value containing Selection Element
             ]
         }, 
         {
             "Type": "CHILD", 
             "Ids": [
-                "bd14cfd5-9005-498b-a7f3-45ceb171f0ff"  WORD - male
+                "bd14cfd5-9005-498b-a7f3-45ceb171f0ff"  // WORD - male
             ]
         }
     ], 
@@ -125,7 +125,7 @@ The VALUE block has a child \(Id f2f5e8cd\-e73a\-4e99\-a095\-053acd3b6bfb\) that
         {
             "Type": "CHILD", 
             "Ids": [
-                "f2f5e8cd-e73a-4e99-a095-053acd3b6bfb"  //Selection element
+                "f2f5e8cd-e73a-4e99-a095-053acd3b6bfb"  // Selection element
             ]
         }
     ], 
@@ -263,7 +263,7 @@ The CELL `BLOCK` object \(Id c63ad40d\-5a14\-4646\-a8df\-2d4304213dbc\) for the 
         {
             "Type": "CHILD", 
             "Ids": [
-                "26d122fd-c5f4-4b53-92c4-0ae92730ee1e"  //Selection Element
+                "26d122fd-c5f4-4b53-92c4-0ae92730ee1e"  // Selection Element
             ]
         }
     ], 

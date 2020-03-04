@@ -45,8 +45,8 @@ The following is the JSON for the LINE blocks that make up the line "Hello, Worl
         {
             "Type": "CHILD", 
             "Ids": [
-                "7f97e2ca-063e-47a8-981c-8beee31afc01", Word - Hello,
-                "4b990aa0-af96-4369-b90f-dbe02538ed21"  Word - world.
+                "7f97e2ca-063e-47a8-981c-8beee31afc01", // Word - Hello,
+                "4b990aa0-af96-4369-b90f-dbe02538ed21"  // Word - world.
             ]
         }
     ], 

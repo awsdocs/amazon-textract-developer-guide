@@ -85,6 +85,7 @@ Required: No
          "[Text](API_Block.md#Textract-Type-Block-Text)": "string"
       }
    ],
+   "[DetectDocumentTextModelVersion](#Textract-GetDocumentTextDetection-response-DetectDocumentTextModelVersion)": "string",
    "[DocumentMetadata](#Textract-GetDocumentTextDetection-response-DocumentMetadata)": { 
       "[Pages](API_DocumentMetadata.md#Textract-Type-DocumentMetadata-Pages)": number
    },
@@ -110,6 +111,9 @@ The following data is returned in JSON format by the service\.
 The results of the text\-detection operation\.  
 Type: Array of [Block](API_Block.md) objects
 
+ ** [DetectDocumentTextModelVersion](#API_GetDocumentTextDetection_ResponseSyntax) **   <a name="Textract-GetDocumentTextDetection-response-DetectDocumentTextModelVersion"></a>
+Type: String
+
  ** [DocumentMetadata](#API_GetDocumentTextDetection_ResponseSyntax) **   <a name="Textract-GetDocumentTextDetection-response-DocumentMetadata"></a>
 Information about a document that Amazon Textract processed\. `DocumentMetadata` is returned in every page of paginated responses from an Amazon Textract video operation\.  
 Type: [DocumentMetadata](API_DocumentMetadata.md) object
@@ -126,7 +130,7 @@ Length Constraints: Minimum length of 1\. Maximum length of 255\.
 Pattern: `.*\S.*` 
 
  ** [StatusMessage](#API_GetDocumentTextDetection_ResponseSyntax) **   <a name="Textract-GetDocumentTextDetection-response-StatusMessage"></a>
-The current status of an asynchronous text\-detection operation for the document\.   
+Returns if the detection job could not be completed\. Contains explanation for what error occured\.   
 Type: String
 
  ** [Warnings](#API_GetDocumentTextDetection_ResponseSyntax) **   <a name="Textract-GetDocumentTextDetection-response-Warnings"></a>
@@ -166,9 +170,8 @@ For more information about using this API in one of the language\-specific AWS S
 +  [AWS SDK for \.NET](https://docs.aws.amazon.com/goto/DotNetSDKV3/textract-2018-06-27/GetDocumentTextDetection) 
 +  [AWS SDK for C\+\+](https://docs.aws.amazon.com/goto/SdkForCpp/textract-2018-06-27/GetDocumentTextDetection) 
 +  [AWS SDK for Go](https://docs.aws.amazon.com/goto/SdkForGoV1/textract-2018-06-27/GetDocumentTextDetection) 
-+  [AWS SDK for Go \- Pilot](https://docs.aws.amazon.com/goto/SdkForGoPilot/textract-2018-06-27/GetDocumentTextDetection) 
 +  [AWS SDK for Java](https://docs.aws.amazon.com/goto/SdkForJava/textract-2018-06-27/GetDocumentTextDetection) 
 +  [AWS SDK for JavaScript](https://docs.aws.amazon.com/goto/AWSJavaScriptSDK/textract-2018-06-27/GetDocumentTextDetection) 
 +  [AWS SDK for PHP V3](https://docs.aws.amazon.com/goto/SdkForPHPV3/textract-2018-06-27/GetDocumentTextDetection) 
 +  [AWS SDK for Python](https://docs.aws.amazon.com/goto/boto3/textract-2018-06-27/GetDocumentTextDetection) 
-+  [AWS SDK for Ruby V2](https://docs.aws.amazon.com/goto/SdkForRubyV2/textract-2018-06-27/GetDocumentTextDetection) 
++  [AWS SDK for Ruby V3](https://docs.aws.amazon.com/goto/SdkForRubyV3/textract-2018-06-27/GetDocumentTextDetection) 

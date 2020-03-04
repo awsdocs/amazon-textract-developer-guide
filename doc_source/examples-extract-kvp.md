@@ -7,13 +7,13 @@ The functions that are specific to Amazon Textract are:
 + `get_kv_relationship` and `find_value_block` – Constructs the key\-value relationships from the map\.
 
 **Note**  
-You can download the source file from [textract\-python\-kv\-parser\.py](https://github.com/awsdocs/aws-doc-sdk-examples/blob/master/python/example_code/textract/textract-python-kv-parser.py)\.
+You can download the source file from [textract\_python\_kv\_parser\.py](https://github.com/awsdocs/aws-doc-sdk-examples/blob/master/python/example_code/textract/textract_python_kv_parser.py)\.
 
 **To extract key\-value pairs from a form document**
 
 1. Configure your environment\. For more information, see [Prerequisites](examples-blocks.md#examples-prerequisites)\.
 
-1. Save the following example code to a file named *textract\-python\-kv\-parser\.py*\.
+1. Save the following example code to a file named *textract\_python\_kv\_parser\.py*\.
 
    ```
    import boto3
@@ -120,7 +120,7 @@ You can download the source file from [textract\-python\-kv\-parser\.py](https:/
 1. At the command prompt, enter the following command\. Replace `file` with the document image file that you want to analyze\.
 
    ```
-   textract-python-kv-parser.py file
+   textract_python_kv_parser.py file
    ```
 
 1. When you're prompted, enter a key that's part of the input document\. If the key is detected, the program displays the value that's associated with the key\.

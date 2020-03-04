@@ -9,13 +9,13 @@ The functions that are specific to Amazon Textract are:
 + `get_text` – Gets the text from a cell\.
 
 **Note**  
-You can download the source code from [textract\-python\-table\-parser\.py](https://github.com/awsdocs/aws-doc-sdk-examples/blob/master/python/example_code/textract/textract-python-table-parser.py)\.
+You can download the source code from [textract\_python\_table\_parser\.py](https://github.com/awsdocs/aws-doc-sdk-examples/blob/master/python/example_code/textract/textract_python_table_parser.py)\.
 
 **To export tables into a CSV file**
 
 1. Configure your environment\. For more information, see [Prerequisites](examples-blocks.md#examples-prerequisites)\.
 
-1. Save the following example code to a file named *textract\-python\-table\-parser\.py*\.
+1. Save the following example code to a file named *textract\_python\_table\_parser\.py*\.
 
    ```
    import webbrowser, os
@@ -132,7 +132,7 @@ You can download the source code from [textract\-python\-table\-parser\.py](http
 1. At the command prompt, enter the following command\. Replace `file` with the document image file that you want to analyze\.
 
    ```
-   python textract-python-table-parser.py file
+   python textract_python_table_parser.py file
    ```
 
 When you run the example, the CSV output is saved to a file named `output.csv`\.

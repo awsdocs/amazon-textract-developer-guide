@@ -72,6 +72,7 @@ Required: Yes
          "[Text](API_Block.md#Textract-Type-Block-Text)": "string"
       }
    ],
+   "[DetectDocumentTextModelVersion](#Textract-DetectDocumentText-response-DetectDocumentTextModelVersion)": "string",
    "[DocumentMetadata](#Textract-DetectDocumentText-response-DocumentMetadata)": { 
       "[Pages](API_DocumentMetadata.md#Textract-Type-DocumentMetadata-Pages)": number
    }
@@ -87,6 +88,9 @@ The following data is returned in JSON format by the service\.
  ** [Blocks](#API_DetectDocumentText_ResponseSyntax) **   <a name="Textract-DetectDocumentText-response-Blocks"></a>
 An array of `Block` objects that contain the text that's detected in the document\.  
 Type: Array of [Block](API_Block.md) objects
+
+ ** [DetectDocumentTextModelVersion](#API_DetectDocumentText_ResponseSyntax) **   <a name="Textract-DetectDocumentText-response-DetectDocumentTextModelVersion"></a>
+Type: String
 
  ** [DocumentMetadata](#API_DetectDocumentText_ResponseSyntax) **   <a name="Textract-DetectDocumentText-response-DocumentMetadata"></a>
 Metadata about the document\. It contains the number of pages that are detected in the document\.  
@@ -137,9 +141,8 @@ For more information about using this API in one of the language\-specific AWS S
 +  [AWS SDK for \.NET](https://docs.aws.amazon.com/goto/DotNetSDKV3/textract-2018-06-27/DetectDocumentText) 
 +  [AWS SDK for C\+\+](https://docs.aws.amazon.com/goto/SdkForCpp/textract-2018-06-27/DetectDocumentText) 
 +  [AWS SDK for Go](https://docs.aws.amazon.com/goto/SdkForGoV1/textract-2018-06-27/DetectDocumentText) 
-+  [AWS SDK for Go \- Pilot](https://docs.aws.amazon.com/goto/SdkForGoPilot/textract-2018-06-27/DetectDocumentText) 
 +  [AWS SDK for Java](https://docs.aws.amazon.com/goto/SdkForJava/textract-2018-06-27/DetectDocumentText) 
 +  [AWS SDK for JavaScript](https://docs.aws.amazon.com/goto/AWSJavaScriptSDK/textract-2018-06-27/DetectDocumentText) 
 +  [AWS SDK for PHP V3](https://docs.aws.amazon.com/goto/SdkForPHPV3/textract-2018-06-27/DetectDocumentText) 
 +  [AWS SDK for Python](https://docs.aws.amazon.com/goto/boto3/textract-2018-06-27/DetectDocumentText) 
-+  [AWS SDK for Ruby V2](https://docs.aws.amazon.com/goto/SdkForRubyV2/textract-2018-06-27/DetectDocumentText) 
++  [AWS SDK for Ruby V3](https://docs.aws.amazon.com/goto/SdkForRubyV3/textract-2018-06-27/DetectDocumentText) 

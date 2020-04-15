@@ -151,7 +151,7 @@ Amazon Textract experienced a service issue\. Try your call again\.
 HTTP Status Code: 500
 
  **InvalidJobIdException**   
-An invalid job identifier was passed to [GetDocumentAnalysis](#API_GetDocumentAnalysis) or to [GetDocumentAnalysis](#API_GetDocumentAnalysis)\.  
+An invalid job identifier was passed to [GetDocumentAnalysis](#API_GetDocumentAnalysis) or to [GetDocumentTextDetection](API_GetDocumentTextDetection.md)\.  
 HTTP Status Code: 400
 
  **InvalidParameterException**   

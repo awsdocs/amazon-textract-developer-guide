@@ -61,7 +61,7 @@ Amazon Textract needs permission to send the completion status of an asynchronou
 
 1. For **Select type of trusted entity**, choose **AWS service**\. 
 
-1. For **Choose the service that will use this role**, choose **EC2**\.
+1. For **Choose the service that will use this role**, choose **Textract**\.
 
 1. Choose **Next: Permissions**\.
 
@@ -72,28 +72,3 @@ Amazon Textract needs permission to send the completion status of an asynchronou
 1. You don't need to add tags, so choose **Next: Review**\.
 
 1. In the **Review** section, for **Role name**, enter a name for the role \(for example, `TextractRole`\)\. In **Role description**, update the description for the role in **Role description**, and then choose **Create role**\.
-
-1. Choose the new role to open the role's details page\.
-
-1. In the **Summary**, copy the **Role ARN** value and save it\.
-
-1. Choose **Trust relationships**\.
-
-1. Choose **Edit trust relationship**, and update the trust policy as follows:
-
-   ```
-   {
-     "Version": "2012-10-17",
-     "Statement": [
-       {
-         "Effect": "Allow",
-         "Principal": {
-           "Service": "textract.amazonaws.com"
-         },
-         "Action": "sts:AssumeRole"
-       }
-     ]
-   }
-   ```
-
-1. Choose **Update Trust Policy**\.

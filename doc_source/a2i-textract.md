@@ -89,7 +89,7 @@ The following steps walk you through how to set up Amazon A2I with Amazon Textra
 
    ```
             client.analyze_document(
-            Document={'S3Object': {'Bucket': bucket, 'Name': document},
+            Document={'S3Object': {'Bucket': bucket, 'Name': document }},
              HumanLoopConfig={'FlowDefinitionArn':string,'HumanLoopName':string},
             FeatureTypes=["FORMS"])
    ```

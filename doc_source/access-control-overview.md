@@ -118,6 +118,7 @@ To use an S3 bucket with versioning enabled, add the `s3:GetObjectVersion` actio
             ]
         }
     ]
+}
 ```
 
 ## Specifying Policy Elements: Actions, Effects, and Principals<a name="specify-policy-elements"></a>

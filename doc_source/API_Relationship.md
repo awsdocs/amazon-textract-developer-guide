@@ -13,7 +13,7 @@ Pattern: `.*\S.*`
 Required: No
 
  **Type**   <a name="Textract-Type-Relationship-Type"></a>
-The type of relationship that the blocks in the IDs array have with the current block\. The relationship can be `VALUE` or `CHILD`\.  
+The type of relationship that the blocks in the IDs array have with the current block\. The relationship can be `VALUE` or `CHILD`\. A relationship of type VALUE is a list that contains the ID of the VALUE block that's associated with the KEY of a key\-value pair\. A relationship of type CHILD is a list of IDs that identify WORD blocks\.  
 Type: String  
 Valid Values:` VALUE | CHILD`   
 Required: No
@@ -23,6 +23,5 @@ Required: No
 For more information about using this API in one of the language\-specific AWS SDKs, see the following:
 +  [AWS SDK for C\+\+](https://docs.aws.amazon.com/goto/SdkForCpp/textract-2018-06-27/Relationship) 
 +  [AWS SDK for Go](https://docs.aws.amazon.com/goto/SdkForGoV1/textract-2018-06-27/Relationship) 
-+  [AWS SDK for Go \- Pilot](https://docs.aws.amazon.com/goto/SdkForGoPilot/textract-2018-06-27/Relationship) 
 +  [AWS SDK for Java](https://docs.aws.amazon.com/goto/SdkForJava/textract-2018-06-27/Relationship) 
-+  [AWS SDK for Ruby V2](https://docs.aws.amazon.com/goto/SdkForRubyV2/textract-2018-06-27/Relationship) 
++  [AWS SDK for Ruby V3](https://docs.aws.amazon.com/goto/SdkForRubyV3/textract-2018-06-27/Relationship) 

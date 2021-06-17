@@ -29,7 +29,14 @@ For more information, see [Document Text Analysis](https://docs.aws.amazon.com/t
          "[Version](API_S3Object.md#Textract-Type-S3Object-Version)": "string"
       }
    },
-   "[FeatureTypes](#Textract-AnalyzeDocument-request-FeatureTypes)": [ "string" ]
+   "[FeatureTypes](#Textract-AnalyzeDocument-request-FeatureTypes)": [ "string" ],
+   "[HumanLoopConfig](#Textract-AnalyzeDocument-request-HumanLoopConfig)": { 
+      "[DataAttributes](API_HumanLoopConfig.md#Textract-Type-HumanLoopConfig-DataAttributes)": { 
+         "[ContentClassifiers](API_HumanLoopDataAttributes.md#Textract-Type-HumanLoopDataAttributes-ContentClassifiers)": [ "string" ]
+      },
+      "[FlowDefinitionArn](API_HumanLoopConfig.md#Textract-Type-HumanLoopConfig-FlowDefinitionArn)": "string",
+      "[HumanLoopName](API_HumanLoopConfig.md#Textract-Type-HumanLoopConfig-HumanLoopName)": "string"
+   }
 }
 ```
 
@@ -49,10 +56,16 @@ Type: Array of strings
 Valid Values:` TABLES | FORMS`   
 Required: Yes
 
+ ** [HumanLoopConfig](#API_AnalyzeDocument_RequestSyntax) **   <a name="Textract-AnalyzeDocument-request-HumanLoopConfig"></a>
+Sets the configuration for the human in the loop workflow for analyzing documents\.  
+Type: [HumanLoopConfig](API_HumanLoopConfig.md) object  
+Required: No
+
 ## Response Syntax<a name="API_AnalyzeDocument_ResponseSyntax"></a>
 
 ```
 {
+   "[AnalyzeDocumentModelVersion](#Textract-AnalyzeDocument-response-AnalyzeDocumentModelVersion)": "string",
    "[Blocks](#Textract-AnalyzeDocument-response-Blocks)": [ 
       { 
          "[BlockType](API_Block.md#Textract-Type-Block-BlockType)": "string",
@@ -90,6 +103,11 @@ Required: Yes
    ],
    "[DocumentMetadata](#Textract-AnalyzeDocument-response-DocumentMetadata)": { 
       "[Pages](API_DocumentMetadata.md#Textract-Type-DocumentMetadata-Pages)": number
+   },
+   "[HumanLoopActivationOutput](#Textract-AnalyzeDocument-response-HumanLoopActivationOutput)": { 
+      "[HumanLoopActivationConditionsEvaluationResults](API_HumanLoopActivationOutput.md#Textract-Type-HumanLoopActivationOutput-HumanLoopActivationConditionsEvaluationResults)": "string",
+      "[HumanLoopActivationReasons](API_HumanLoopActivationOutput.md#Textract-Type-HumanLoopActivationOutput-HumanLoopActivationReasons)": [ "string" ],
+      "[HumanLoopArn](API_HumanLoopActivationOutput.md#Textract-Type-HumanLoopActivationOutput-HumanLoopArn)": "string"
    }
 }
 ```
@@ -100,6 +118,10 @@ If the action is successful, the service sends back an HTTP 200 response\.
 
 The following data is returned in JSON format by the service\.
 
+ ** [AnalyzeDocumentModelVersion](#API_AnalyzeDocument_ResponseSyntax) **   <a name="Textract-AnalyzeDocument-response-AnalyzeDocumentModelVersion"></a>
+The version of the model used to analyze the document\.  
+Type: String
+
  ** [Blocks](#API_AnalyzeDocument_ResponseSyntax) **   <a name="Textract-AnalyzeDocument-response-Blocks"></a>
 The items that are detected and analyzed by `AnalyzeDocument`\.  
 Type: Array of [Block](API_Block.md) objects
@@ -107,6 +129,10 @@ Type: Array of [Block](API_Block.md) objects
  ** [DocumentMetadata](#API_AnalyzeDocument_ResponseSyntax) **   <a name="Textract-AnalyzeDocument-response-DocumentMetadata"></a>
 Metadata about the analyzed document\. An example is the number of pages\.  
 Type: [DocumentMetadata](API_DocumentMetadata.md) object
+
+ ** [HumanLoopActivationOutput](#API_AnalyzeDocument_ResponseSyntax) **   <a name="Textract-AnalyzeDocument-response-HumanLoopActivationOutput"></a>
+Shows the results of the human in the loop evaluation\.  
+Type: [HumanLoopActivationOutput](API_HumanLoopActivationOutput.md) object
 
 ## Errors<a name="API_AnalyzeDocument_Errors"></a>
 
@@ -120,6 +146,10 @@ HTTP Status Code: 400
 
  **DocumentTooLargeException**   
 The document can't be processed because it's too large\. The maximum document size for synchronous operations 5 MB\. The maximum document size for asynchronous operations is 500 MB for PDF files\.  
+HTTP Status Code: 400
+
+ **HumanLoopQuotaExceededException**   
+Indicates you have exceeded the maximum number of active human in the loop workflows available  
 HTTP Status Code: 400
 
  **InternalServerError**   
@@ -153,9 +183,8 @@ For more information about using this API in one of the language\-specific AWS S
 +  [AWS SDK for \.NET](https://docs.aws.amazon.com/goto/DotNetSDKV3/textract-2018-06-27/AnalyzeDocument) 
 +  [AWS SDK for C\+\+](https://docs.aws.amazon.com/goto/SdkForCpp/textract-2018-06-27/AnalyzeDocument) 
 +  [AWS SDK for Go](https://docs.aws.amazon.com/goto/SdkForGoV1/textract-2018-06-27/AnalyzeDocument) 
-+  [AWS SDK for Go \- Pilot](https://docs.aws.amazon.com/goto/SdkForGoPilot/textract-2018-06-27/AnalyzeDocument) 
 +  [AWS SDK for Java](https://docs.aws.amazon.com/goto/SdkForJava/textract-2018-06-27/AnalyzeDocument) 
 +  [AWS SDK for JavaScript](https://docs.aws.amazon.com/goto/AWSJavaScriptSDK/textract-2018-06-27/AnalyzeDocument) 
 +  [AWS SDK for PHP V3](https://docs.aws.amazon.com/goto/SdkForPHPV3/textract-2018-06-27/AnalyzeDocument) 
 +  [AWS SDK for Python](https://docs.aws.amazon.com/goto/boto3/textract-2018-06-27/AnalyzeDocument) 
-+  [AWS SDK for Ruby V2](https://docs.aws.amazon.com/goto/SdkForRubyV2/textract-2018-06-27/AnalyzeDocument) 
++  [AWS SDK for Ruby V3](https://docs.aws.amazon.com/goto/SdkForRubyV3/textract-2018-06-27/AnalyzeDocument) 

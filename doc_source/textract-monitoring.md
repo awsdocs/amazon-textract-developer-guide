@@ -22,7 +22,7 @@ The following list shows some common uses for the metrics\. These are suggestion
 |  How can I find the total number of requests?  |  Use the `ResponseTime` and `Data Samples` statistic of the `ResponseTime` metric\. This includes any request that results in an error\. If you want to see only successful operation calls, use the `SuccessfulRequestCount` metric\.  | 
 |  How can I monitor the latency of Amazon Textract operation calls?  |  Use the `ResponseTime` metric\.  | 
 
-You must have the appropriate CloudWatch permissions to monitor Amazon Textract with CloudWatch\. For more information, see [Authentication and Access Control for Amazon CloudWatch](https://docs.aws.amazon.com//AmazonCloudWatch/latest/monitoring/auth-and-access-control-cw.html)\.
+You must have the appropriate CloudWatch permissions to monitor Amazon Textract with CloudWatch\. For more information, see [Authentication and Access Control for Amazon CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/auth-and-access-control-cw.html)\.
 
 ## Access Amazon Textract Metrics<a name="how-to-access"></a>
 

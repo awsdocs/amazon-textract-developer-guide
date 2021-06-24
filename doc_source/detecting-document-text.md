@@ -273,10 +273,10 @@ You can provide an input document as an image byte array \(base64\-encoded image
    
        if block['BlockType'] == 'CELL':
            print("    Cell information")
-           print("        Column:" + str(block['ColumnIndex']))
-           print("        Row:" + str(block['RowIndex']))
-           print("        Column Span:" + str(block['ColumnSpan']))
-           print("        RowSpan:" + str(block['ColumnSpan']))    
+           print("        Column: " + str(block['ColumnIndex']))
+           print("        Row: " + str(block['RowIndex']))
+           print("        Column Span: " + str(block['ColumnSpan']))
+           print("        RowSpan: " + str(block['RowSpan']))    
        
        if 'Relationships' in block:
            print('    Relationships: {}'.format(block['Relationships']))

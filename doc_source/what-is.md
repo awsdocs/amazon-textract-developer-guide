@@ -1,6 +1,6 @@
 # What Is Amazon Textract?<a name="what-is"></a>
 
-Amazon Textract makes it easy to add document text detection and analysis to your applications\. The Amazon Textract Text Detection API can detect text in a variety of documents including financial reports, medical records, and tax forms\. For documents with structured data, you can use the Amazon Textract Document Analysis API to extract text, forms and tables\. 
+Amazon Textract makes it easy to add document text detection and analysis to your applications\. The Amazon Textract Text Detection API can detect text in a variety of documents including financial reports, medical records, and tax forms\. For documents with structured data, you can use the Amazon Textract Document Analysis API to extract text, forms and tables\. This is my change.
 
 Amazon Textract is based on the same proven, highly scalable, deep\-learning technology that was developed by Amazon’s computer vision scientists to analyze billions of images and videos daily\. You don't need any machine learning expertise to use it\. Amazon Textract includes simple, easy\-to\-use APIs that can analyze image files and PDF files\. Amazon Textract is always learning from new data, and we’re continually adding new features to the service\.
 

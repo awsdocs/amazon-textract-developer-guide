@@ -2,42 +2,53 @@
 
 This procedure shows you how to detect or analyze text in a multipage document by using Amazon Textract detection operations, a document stored in an Amazon S3 bucket, an Amazon SNS topic, and an Amazon SQS queue\. Multipage document processing is an asynchronous operation\. For more information, see [Calling Amazon Textract Asynchronous Operations](api-async.md)\.
 
-The procedure enables you to choose the type of processing that you want the code to do—text detection or text analysis\. If you choose text detection, [StartDocumentTextDetection](API_StartDocumentTextDetection.md) is called to start text detection\. The results are returned by calling [GetDocumentTextDetection](API_GetDocumentTextDetection.md)\. If you choose text analysis, [StartDocumentAnalysis](API_StartDocumentAnalysis.md) is called to start text analysis\. You get the results by calling [GetDocumentAnalysis](API_GetDocumentAnalysis.md)\. 
+You can choose the type of processing that you want the code to do: text detection, text analysis, or expense analysis\. 
 
-The processing results are returned in an array of [Block](API_Block.md) objects\. They are different depending on the type of processing\. For information about text detection blocks, see [Detecting Text](how-it-works-detecting.md)\. For text analysis blocks, see [Analyzing Text](how-it-works-analyzing.md)\.
+The processing results are returned in an array of [Block](API_Block.md) objects, which differ depending on the type of processing you use\.
 
-The example code in the procedure shows you how to do the following steps: 
+ To detect text in or analyze multipage documents, you do the following:
 
 1. Create the Amazon SNS topic and the Amazon SQS queue\.
 
-1. Subscribe the Amazon SQS queue to the Amazon SNS topic\.
+1. Subscribe the queue the topic\.
 
-1. Give permission to the Amazon SNS topic to send messages to the Amazon SQS queue\.
+1. Give the topic permission to send messages to the queue\.
 
-1. Start processing the document\. Start text detection by calling [StartDocumentTextDetection](API_StartDocumentTextDetection.md)\. Start text analysis by calling [StartDocumentAnalysis](API_StartDocumentAnalysis.md)\. 
+1. Start processing the document\. Use the appropriate operation for your chosen type of analysis:
+   + [StartDocumentTextDetection](API_StartDocumentTextDetection.md) for text detection tasks\.
+   + [StartDocumentAnalysis](API_StartDocumentAnalysis.md) for text analysis tasks\.
+   + [StartExpenseAnalysis](API_StartExpenseAnalysis.md) for expense analysis tasks\.
 
-1. Get the completion status from the Amazon SQS queue\. The example tracks the job identifier \(`JobId`\) that's returned by the `Start` operation\. It only gets the results for matching job identifiers that are read from the completion status\. This is an important consideration if other applications are using the same queue and topic\. For simplicity, the example deletes jobs that don't match\. Consider adding them to an Amazon SQS dead\-letter queue for further investigation\.
+1. Get the completion status from the Amazon SQS queue\. The example code tracks the job identifier \(`JobId`\) that's returned by the `Start` operation\. It only gets the results for matching job identifiers that are read from the completion status\. This is important if other applications are using the same queue and topic\. For simplicity, the example deletes jobs that don't match\. Consider adding the deleted jobs to an Amazon SQS dead\-letter queue for further investigation\.
 
-1. Get and display the processing results by calling [GetDocumentTextDetection](API_GetDocumentTextDetection.md) or [GetDocumentAnalysis](API_GetDocumentAnalysis.md)\.
+1. Get and display the processing results by calling the appropriate operation for your chosen type of analysis:
+   + [GetDocumentTextDetection](API_GetDocumentTextDetection.md) for text detection tasks\.
+   + [GetDocumentAnalysis](API_GetDocumentAnalysis.md) for text analysis tasks\.
+   + [GetExpenseAnalysis](API_GetExpenseAnalysis.md) for expense analysis tasks\.
 
 1. Delete the Amazon SNS topic and the Amazon SQS queue\.
 
-## Detecting or Analyzing Text<a name="async-prerequisites"></a>
+## Performing Asynchronous Operations<a name="async-prerequisites"></a>
 
-The example code for this procedure is provided in Java and Python\. You need to have the appropriate AWS SDK installed\. For more information, see [Step 2: Set Up the AWS CLI and AWS SDKs](setup-awscli-sdk.md)\. 
+The example code for this procedure is provided in Java, Python, and the AWS CLI\. Before you begin, install the appropriate AWS SDK\. For more information, see [Step 2: Set Up the AWS CLI and AWS SDKs](setup-awscli-sdk.md)\. 
 
 **To detect or analyze text in a multipage document**
 
-1. Configure user access to Amazon Textract, and configure Amazon Textract access to Amazon SNS\. For more information, see [Configuring Amazon Textract for Asynchronous Operations](api-async-roles.md)\. You don't need to do steps 3, 4, 5, and 6 because the example code creates and configures the Amazon SNS topic and Amazon SQS queue\.
+1. Configure user access to Amazon Textract, and configure Amazon Textract access to Amazon SNS\. For more information, see [Configuring Amazon Textract for Asynchronous Operations](api-async-roles.md)\. To complete this procedure, you need a multipage document ﬁle in PDF format\. Skip steps 3 – 6 because the example code creates and configures the Amazon SNS topic and Amazon SQS queue\. If completing the CLI example, you don't need to set up an SQS queue\. 
 
-1. Upload a multipage document file in PDF format to your Amazon S3 bucket\. \(Single\-page documents in JPEG, PNG, or PDF format can also be processed\)\. 
+1. Upload a multipage document file in PDF or TIFF format to your Amazon S3 bucket\. \(Single\-page documents in JPEG, PNG, TIFF, or PDF format can also be processed\)\. 
 
-   For instructions, see [Uploading Objects into Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/UploadingObjectsintoAmazonS3.html) in the *Amazon Simple Storage Service Console User Guide*\.
+   For instructions, see [Uploading Objects into Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/UploadingObjectsintoAmazonS3.html) in the *Amazon Simple Storage Service User Guide*\.
 
-1. Use the following AWS SDK for Java or SDK for Python \(Boto 3\) code to either detect text or analyze text in a multipage document\. In the function `main`:
+1. Use the following AWS SDK for Java, SDK for Python \(Boto3\), or AWS CLI code to either detect text or analyze text in a multipage document\. In the `main` function:
    + Replace the value of `roleArn` with the IAM role ARN that you saved in [Giving Amazon Textract Access to Your Amazon SNS Topic](api-async-roles.md#api-async-roles-all-topics)\. 
    + Replace the values of `bucket` and `document` with the bucket and document file name that you specified in step 2\. 
    + Replace the value of the `type` input parameter of the `ProcessDocument` function with the type of processing that you want to do\. Use `ProcessType.DETECTION` to detect text\. Use `ProcessType.ANALYSIS` to analyze text\. 
+   + For the Python example, replace the value of `region_name` with the region your client is operating in\.
+
+   For the AWS CLI example, do the following:
+   + When calling [StartDocumentTextDetection](API_StartDocumentTextDetection.md), replace the value of `bucket-name` with the name of your S3 bucket, and replace `file-name` with the name of the file you specified in step 2\. Specify the region of your bucket by replacing `region-name` with the name of your region\. Take note that the CLI example does not make use of SQS\. 
+   + When calling [GetDocumentTextDetection](API_GetDocumentTextDetection.md) replace `job-id-number` with the `job-id` returned by [StartDocumentTextDetection](API_StartDocumentTextDetection.md)\. Specify the region of your bucket by replacing `region-name` with the name of your region\.
 
 ------
 #### [ Java ]
@@ -246,7 +257,7 @@ The example code for this procedure is provided in Java and Python\. You need to
                                }
                            }
                            else{
-                               System.out.println("Video analysis failed");
+                               System.out.println("Document analysis failed");
                            }
    
                            sqs.deleteMessage(sqsQueueUrl,message.getReceiptHandle());
@@ -431,6 +442,37 @@ The example code for this procedure is provided in Java and Python\. You need to
    ```
 
 ------
+#### [ AWS CLI ]
+
+   This AWS CLI command starts the asynchronous detection of text in a specified document\. It returns a `job-id` that can be used to retreive the results of the detection\. 
+
+   ```
+   aws textract start-document-text-detection --document-location 
+   "{\"S3Object\":{\"Bucket\":\"bucket-name\",\"Name\":\"file-name\"}}" --region region-name
+   ```
+
+   This AWS CLI command returns the results for an Amazon Textract asynchronous operation when provided with a `job-id`\. 
+
+   ```
+   aws textract get-document-text-detection --region region-name --job-id job-id-number
+   ```
+
+   If you are accessing the CLI on a Windows device, use double quotes instead of single quotes and escape the inner double quotes by backslash \(i\.e\. \\\) to address any parser errors you may encounter\. For an example, see below
+
+   ```
+   aws textract start-document-text-detection --document-location "{\"S3Object\":{\"Bucket\":\"bucket\",\"Name\":\"document\"}}" --region region-name
+   ```
+
+    If you are analyzing a document with the StartDocumentAnalysis operation, you can provide values to the `feature-type` parameter\. The following example demonstrates how to include the `QUERIES` value in the `feature-types` parameter and then provide a `Queries` object to the `queries-config` parameter\. 
+
+   ```
+   aws textract start-document-analysis \ 
+   --document '{"S3Object":{"Bucket":"bucket","Name":"document"}}'\
+    --feature-types '["QUERIES"]' \
+   --queries-config '{"Queries":[{"Text":"Question"}]}'
+   ```
+
+------
 #### [ Python ]
 
    ```
@@ -439,6 +481,7 @@ The example code for this procedure is provided in Java and Python\. You need to
    import sys
    import time
    
+   
    class ProcessType:
        DETECTION = 1
        ANALYSIS = 2
@@ -446,65 +489,68 @@ The example code for this procedure is provided in Java and Python\. You need to
    
    class DocumentProcessor:
        jobId = ''
-       textract = boto3.client('textract')
-       sqs = boto3.client('sqs')
-       sns = boto3.client('sns')
+       region_name = ''
    
-       roleArn = ''   
+       roleArn = ''
        bucket = ''
        document = ''
-       
+   
        sqsQueueUrl = ''
        snsTopicArn = ''
        processType = ''
    
-   
-       def __init__(self, role, bucket, document):    
+       def __init__(self, role, bucket, document, region):
            self.roleArn = role
            self.bucket = bucket
-           self.document = document    
+           self.document = document
+           self.region_name = region
    
-    
-       def ProcessDocument(self,type):
+           self.textract = boto3.client('textract', region_name=self.region_name)
+           self.sqs = boto3.client('sqs', region_name=self.region_name)
+           self.sns = boto3.client('sns', region_name=self.region_name)
+   
+       def ProcessDocument(self, type):
            jobFound = False
-           
-           self.processType=type
-           validType=False
    
-           #Determine which type of processing to perform
-           if self.processType==ProcessType.DETECTION:
-               response = self.textract.start_document_text_detection(DocumentLocation={'S3Object': {'Bucket': self.bucket, 'Name': self.document}},
-                       NotificationChannel={'RoleArn': self.roleArn, 'SNSTopicArn': self.snsTopicArn})
+           self.processType = type
+           validType = False
+   
+           # Determine which type of processing to perform
+           if self.processType == ProcessType.DETECTION:
+               response = self.textract.start_document_text_detection(
+                   DocumentLocation={'S3Object': {'Bucket': self.bucket, 'Name': self.document}},
+                   NotificationChannel={'RoleArn': self.roleArn, 'SNSTopicArn': self.snsTopicArn})
                print('Processing type: Detection')
-               validType=True        
+               validType = True
    
-           
-           if self.processType==ProcessType.ANALYSIS:
-               response = self.textract.start_document_analysis(DocumentLocation={'S3Object': {'Bucket': self.bucket, 'Name': self.document}},
+           # For document analysis, select which features you want to obtain with the FeatureTypes argument
+           if self.processType == ProcessType.ANALYSIS:
+               response = self.textract.start_document_analysis(
+                   DocumentLocation={'S3Object': {'Bucket': self.bucket, 'Name': self.document}},
                    FeatureTypes=["TABLES", "FORMS"],
                    NotificationChannel={'RoleArn': self.roleArn, 'SNSTopicArn': self.snsTopicArn})
                print('Processing type: Analysis')
-               validType=True    
+               validType = True
    
-           if validType==False:
+           if validType == False:
                print("Invalid processing type. Choose Detection or Analysis.")
                return
    
            print('Start Job Id: ' + response['JobId'])
-           dotLine=0
+           dotLine = 0
            while jobFound == False:
                sqsResponse = self.sqs.receive_message(QueueUrl=self.sqsQueueUrl, MessageAttributeNames=['ALL'],
-                                             MaxNumberOfMessages=10)
+                                                      MaxNumberOfMessages=10)
    
                if sqsResponse:
-                   
+   
                    if 'Messages' not in sqsResponse:
-                       if dotLine<40:
+                       if dotLine < 40:
                            print('.', end='')
-                           dotLine=dotLine+1
+                           dotLine = dotLine + 1
                        else:
                            print()
-                           dotLine=0    
+                           dotLine = 0
                        sys.stdout.flush()
                        time.sleep(5)
                        continue
@@ -519,37 +565,34 @@ The example code for this procedure is provided in Java and Python\. You need to
                            jobFound = True
                            self.GetResults(textMessage['JobId'])
                            self.sqs.delete_message(QueueUrl=self.sqsQueueUrl,
-                                          ReceiptHandle=message['ReceiptHandle'])
+                                                   ReceiptHandle=message['ReceiptHandle'])
                        else:
                            print("Job didn't match:" +
                                  str(textMessage['JobId']) + ' : ' + str(response['JobId']))
                        # Delete the unknown message. Consider sending to dead letter queue
                        self.sqs.delete_message(QueueUrl=self.sqsQueueUrl,
-                                      ReceiptHandle=message['ReceiptHandle'])
+                                               ReceiptHandle=message['ReceiptHandle'])
    
            print('Done!')
    
-       
-   
-   
        def CreateTopicandQueue(self):
-         
+   
            millis = str(int(round(time.time() * 1000)))
    
-           #Create SNS topic
-           snsTopicName="AmazonTextractTopic" + millis
+           # Create SNS topic
+           snsTopicName = "AmazonTextractTopic" + millis
    
-           topicResponse=self.sns.create_topic(Name=snsTopicName)
+           topicResponse = self.sns.create_topic(Name=snsTopicName)
            self.snsTopicArn = topicResponse['TopicArn']
    
-           #create SQS queue
-           sqsQueueName="AmazonTextractQueue" + millis
+           # create SQS queue
+           sqsQueueName = "AmazonTextractQueue" + millis
            self.sqs.create_queue(QueueName=sqsQueueName)
            self.sqsQueueUrl = self.sqs.get_queue_url(QueueName=sqsQueueName)['QueueUrl']
-    
+   
            attribs = self.sqs.get_queue_attributes(QueueUrl=self.sqsQueueUrl,
-                                                       AttributeNames=['QueueArn'])['Attributes']
-                                           
+                                                   AttributeNames=['QueueArn'])['Attributes']
+   
            sqsQueueArn = attribs['QueueArn']
    
            # Subscribe SQS queue to SNS topic
@@ -558,7 +601,7 @@ The example code for this procedure is provided in Java and Python\. You need to
                Protocol='sqs',
                Endpoint=sqsQueueArn)
    
-           #Authorize SNS to write SQS queue 
+           # Authorize SNS to write SQS queue
            policy = """{{
      "Version":"2012-10-17",
      "Statement":[
@@ -576,29 +619,29 @@ The example code for this procedure is provided in Java and Python\. You need to
        }}
      ]
    }}""".format(sqsQueueArn, self.snsTopicArn)
-    
+   
            response = self.sqs.set_queue_attributes(
-               QueueUrl = self.sqsQueueUrl,
-               Attributes = {
-                   'Policy' : policy
+               QueueUrl=self.sqsQueueUrl,
+               Attributes={
+                   'Policy': policy
                })
    
        def DeleteTopicandQueue(self):
            self.sqs.delete_queue(QueueUrl=self.sqsQueueUrl)
            self.sns.delete_topic(TopicArn=self.snsTopicArn)
    
-       #Display information about a block
-       def DisplayBlockInfo(self,block):
-           
-           print ("Block Id: " + block['Id'])
-           print ("Type: " + block['BlockType'])
+       # Display information about a block
+       def DisplayBlockInfo(self, block):
+   
+           print("Block Id: " + block['Id'])
+           print("Type: " + block['BlockType'])
            if 'EntityTypes' in block:
                print('EntityTypes: {}'.format(block['EntityTypes']))
    
            if 'Text' in block:
                print("Text: " + block['Text'])
    
-           if block['BlockType'] != 'PAGE':
+           if block['BlockType'] != 'PAGE' and "Confidence" in str(block['BlockType']):
                print("Confidence: " + "{:.2f}".format(block['Confidence']) + "%")
    
            print('Page: {}'.format(block['Page']))
@@ -612,19 +655,27 @@ The example code for this procedure is provided in Java and Python\. You need to
    
                if 'Relationships' in block:
                    print('\tRelationships: {}'.format(block['Relationships']))
-       
-           print('Geometry')
-           print('\tBounding Box: {}'.format(block['Geometry']['BoundingBox']))
-           print('\tPolygon: {}'.format(block['Geometry']['Polygon']))
-           
+   
+           if ("Geometry") in str(block):
+               print('Geometry')
+               print('\tBounding Box: {}'.format(block['Geometry']['BoundingBox']))
+               print('\tPolygon: {}'.format(block['Geometry']['Polygon']))
+   
            if block['BlockType'] == 'SELECTION_ELEMENT':
                print('    Selection element detected: ', end='')
-               if block['SelectionStatus'] =='SELECTED':
+               if block['SelectionStatus'] == 'SELECTED':
                    print('Selected')
                else:
-                   print('Not selected')  
+                   print('Not selected')
    
-   
+           if block["BlockType"] == "QUERY":
+               print("Query info:")
+               print(block["Query"])
+           
+           if block["BlockType"] == "QUERY_RESULT":
+               print("Query answer:")
+               print(block["Text"])        
+                   
        def GetResults(self, jobId):
            maxResults = 1000
            paginationToken = None
@@ -632,35 +683,35 @@ The example code for this procedure is provided in Java and Python\. You need to
    
            while finished == False:
    
-               response=None
+               response = None
    
-               if self.processType==ProcessType.ANALYSIS:
-                   if paginationToken==None:
+               if self.processType == ProcessType.ANALYSIS:
+                   if paginationToken == None:
                        response = self.textract.get_document_analysis(JobId=jobId,
-                           MaxResults=maxResults)
-                   else: 
+                                                                      MaxResults=maxResults)
+                   else:
                        response = self.textract.get_document_analysis(JobId=jobId,
-                           MaxResults=maxResults,
-                           NextToken=paginationToken)                           
+                                                                      MaxResults=maxResults,
+                                                                      NextToken=paginationToken)
    
-               if self.processType==ProcessType.DETECTION:
-                   if paginationToken==None:
+               if self.processType == ProcessType.DETECTION:
+                   if paginationToken == None:
                        response = self.textract.get_document_text_detection(JobId=jobId,
-                           MaxResults=maxResults)
-                   else: 
+                                                                            MaxResults=maxResults)
+                   else:
                        response = self.textract.get_document_text_detection(JobId=jobId,
-                           MaxResults=maxResults,
-                           NextToken=paginationToken)   
+                                                                            MaxResults=maxResults,
+                                                                            NextToken=paginationToken)
    
-               blocks=response['Blocks'] 
-               print ('Detected Document Text')
-               print ('Pages: {}'.format(response['DocumentMetadata']['Pages']))
-           
+               blocks = response['Blocks']
+               print('Detected Document Text')
+               print('Pages: {}'.format(response['DocumentMetadata']['Pages']))
+   
                # Display block information
                for block in blocks:
-                       self.DisplayBlockInfo(block)
-                       print()
-                       print()
+                   self.DisplayBlockInfo(block)
+                   print()
+                   print()
    
                if 'NextToken' in response:
                    paginationToken = response['NextToken']
@@ -674,41 +725,40 @@ The example code for this procedure is provided in Java and Python\. You need to
    
            while finished == False:
    
-               response=None
-               if paginationToken==None:
+               response = None
+               if paginationToken == None:
                    response = self.textract.get_document_analysis(JobId=jobId,
-                                               MaxResults=maxResults)
-               else: 
+                                                                  MaxResults=maxResults)
+               else:
                    response = self.textract.get_document_analysis(JobId=jobId,
-                                               MaxResults=maxResults,
-                                               NextToken=paginationToken)  
-               
+                                                                  MaxResults=maxResults,
+                                                                  NextToken=paginationToken)
    
-               #Get the text blocks
-               blocks=response['Blocks']
-               print ('Analyzed Document Text')
-               print ('Pages: {}'.format(response['DocumentMetadata']['Pages']))
+                   # Get the text blocks
+               blocks = response['Blocks']
+               print('Analyzed Document Text')
+               print('Pages: {}'.format(response['DocumentMetadata']['Pages']))
                # Display block information
                for block in blocks:
-                       self.DisplayBlockInfo(block)
-                       print()
-                       print()
+                   self.DisplayBlockInfo(block)
+                   print()
+                   print()
    
-                       if 'NextToken' in response:
-                           paginationToken = response['NextToken']
-                       else:
-                           finished = True
-   
+                   if 'NextToken' in response:
+                       paginationToken = response['NextToken']
+                   else:
+                       finished = True
    
    
    def main():
-       roleArn = ''   
+       roleArn = ''
        bucket = ''
        document = ''
+       region_name = ''
    
-       analyzer=DocumentProcessor(roleArn, bucket,document)
+       analyzer = DocumentProcessor(roleArn, bucket, document, region_name)
        analyzer.CreateTopicandQueue()
-       analyzer.ProcessDocument(ProcessType.DETECTION)
+       analyzer.ProcessDocument(ProcessType.ANALYSIS)
        analyzer.DeleteTopicandQueue()
    
    
@@ -716,6 +766,309 @@ The example code for this procedure is provided in Java and Python\. You need to
        main()
    ```
 
+   In order to use different features of the `AnalyzeDocument` operation, you provide the proper feature type to the `features-type` parameter\. For example, to use the Queries feature, include the `QUERIES` value in the `feature-types` parameter and then provide a `Queries` object to the `queries-config` parameter\. To query your document, replace the code block that makes a request to the `StartDocumentAnalysis` operation with the code block below, and enter your query\.
+
+   ```
+   if self.processType == ProcessType.ANALYSIS:
+               response = self.textract.start_document_analysis(
+                   DocumentLocation={'S3Object': {'Bucket': self.bucket, 'Name': self.document}},
+                   FeatureTypes=["TABLES", "FORMS", "QUERIES"],
+                                          QueriesConfig={'Queries':[
+                                              {'Text':'{}'.format("Enter query here")}
+                                          ]},
+                   NotificationChannel={'RoleArn': self.roleArn, 'SNSTopicArn': self.snsTopicArn})
+   ```
+
+------
+#### [ Node\.JS ]
+
+   In this example, replace the value of `roleArn` with the IAM role ARN that you saved in [Giving Amazon Textract Access to Your Amazon SNS Topic](api-async-roles.md#api-async-roles-all-topics)\. Replace the values of `bucket` and `document` with the bucket and document file name you specified in step 2 above\. Replace the value of `processType` with the type of processing you'd like to use on the input document\. Finally, replace the value of `REGION` with the region your client is operating in\.
+
+   ```
+    // snippet-start:[sqs.JavaScript.queues.createQueueV3]
+   // Import required AWS SDK clients and commands for Node.js
+   import { CreateQueueCommand, GetQueueAttributesCommand, GetQueueUrlCommand, 
+       SetQueueAttributesCommand, DeleteQueueCommand, ReceiveMessageCommand, DeleteMessageCommand } from  "@aws-sdk/client-sqs";
+     import {CreateTopicCommand, SubscribeCommand, DeleteTopicCommand } from "@aws-sdk/client-sns";
+     import  { SQSClient } from "@aws-sdk/client-sqs";
+     import  { SNSClient } from "@aws-sdk/client-sns";
+     import  { TextractClient, StartDocumentTextDetectionCommand, StartDocumentAnalysisCommand, GetDocumentAnalysisCommand, GetDocumentTextDetectionCommand, DocumentMetadata } from "@aws-sdk/client-textract";
+     import { stdout } from "process";
+     
+     // Set the AWS Region.
+     const REGION = "us-east-1"; //e.g. "us-east-1"
+     // Create SNS service object.
+     const sqsClient = new SQSClient({ region: REGION });
+     const snsClient = new SNSClient({ region: REGION });
+     const textractClient = new TextractClient({ region: REGION });
+     
+     // Set bucket and video variables
+     const bucket = "bucket-name";                                                                                                                  
+     const documentName = "document-name";
+     const roleArn = "role-arn"
+     const processType = "DETECTION"
+     var startJobId = ""
+     
+     var ts = Date.now();
+     const snsTopicName = "AmazonTextractExample" + ts;
+     const snsTopicParams = {Name: snsTopicName}
+     const sqsQueueName = "AmazonTextractQueue-" + ts;
+   
+     // Set the parameters
+     const sqsParams = {
+       QueueName: sqsQueueName, //SQS_QUEUE_URL
+       Attributes: {
+         DelaySeconds: "60", // Number of seconds delay.
+         MessageRetentionPeriod: "86400", // Number of seconds delay.
+       },
+     };
+     
+     // Process a document based on operation type
+     const processDocumment = async (type, bucket, videoName, roleArn, sqsQueueUrl, snsTopicArn) =>
+       {
+       try
+       {
+           // Set job found and success status to false initially
+         var jobFound = false
+         var succeeded = false
+         var dotLine = 0
+         var processType = type
+         var validType = false
+   
+         if (processType == "DETECTION"){
+           var response = await textractClient.send(new StartDocumentTextDetectionCommand({DocumentLocation:{S3Object:{Bucket:bucket, Name:videoName}}, 
+             NotificationChannel:{RoleArn: roleArn, SNSTopicArn: snsTopicArn}}))
+           console.log("Processing type: Detection")
+           validType = true
+         }
+   
+         if (processType == "ANALYSIS"){
+           var response = await textractClient.send(new StartDocumentAnalysisCommand({DocumentLocation:{S3Object:{Bucket:bucket, Name:videoName}}, 
+             NotificationChannel:{RoleArn: roleArn, SNSTopicArn: snsTopicArn}}))
+           console.log("Processing type: Analysis")
+           validType = true
+         }
+   
+         if (validType == false){
+             console.log("Invalid processing type. Choose Detection or Analysis.")
+             return
+         }
+       // while not found, continue to poll for response
+       console.log(`Start Job ID: ${response.JobId}`)
+       while (jobFound == false){
+         var sqsReceivedResponse = await sqsClient.send(new ReceiveMessageCommand({QueueUrl:sqsQueueUrl, 
+           MaxNumberOfMessages:'ALL', MaxNumberOfMessages:10}));
+         if (sqsReceivedResponse){
+           var responseString = JSON.stringify(sqsReceivedResponse)
+           if (!responseString.includes('Body')){
+             if (dotLine < 40) {
+               console.log('.')
+               dotLine = dotLine + 1
+             }else {
+               console.log('')
+               dotLine = 0 
+             };
+             stdout.write('', () => {
+               console.log('');
+             });
+             await new Promise(resolve => setTimeout(resolve, 5000));
+             continue
+           }
+         }
+   
+           // Once job found, log Job ID and return true if status is succeeded
+           for (var message of sqsReceivedResponse.Messages){
+               console.log("Retrieved messages:")
+               var notification = JSON.parse(message.Body)
+               var rekMessage = JSON.parse(notification.Message)
+               var messageJobId = rekMessage.JobId
+               if (String(rekMessage.JobId).includes(String(startJobId))){
+                   console.log('Matching job found:')
+                   console.log(rekMessage.JobId)
+                   jobFound = true
+                   // GET RESUlTS FUNCTION HERE
+                   var operationResults = await GetResults(processType, rekMessage.JobId)
+                   //GET RESULTS FUMCTION HERE
+                   console.log(rekMessage.Status)
+               if (String(rekMessage.Status).includes(String("SUCCEEDED"))){
+                   succeeded = true
+                   console.log("Job processing succeeded.")
+                   var sqsDeleteMessage = await sqsClient.send(new DeleteMessageCommand({QueueUrl:sqsQueueUrl, ReceiptHandle:message.ReceiptHandle}));
+               }
+               }else{
+               console.log("Provided Job ID did not match returned ID.")
+               var sqsDeleteMessage = await sqsClient.send(new DeleteMessageCommand({QueueUrl:sqsQueueUrl, ReceiptHandle:message.ReceiptHandle}));
+               }
+           }
+   
+       console.log("Done!")
+       }
+       }catch (err) {
+           console.log("Error", err);
+         }
+     }
+   
+     // Create the SNS topic and SQS Queue
+     const createTopicandQueue = async () => {
+       try {
+         // Create SNS topic
+         const topicResponse = await snsClient.send(new CreateTopicCommand(snsTopicParams));
+         const topicArn = topicResponse.TopicArn
+         console.log("Success", topicResponse);
+         // Create SQS Queue
+         const sqsResponse = await sqsClient.send(new CreateQueueCommand(sqsParams));
+         console.log("Success", sqsResponse);
+         const sqsQueueCommand = await sqsClient.send(new GetQueueUrlCommand({QueueName: sqsQueueName}))
+         const sqsQueueUrl = sqsQueueCommand.QueueUrl
+         const attribsResponse = await sqsClient.send(new GetQueueAttributesCommand({QueueUrl: sqsQueueUrl, AttributeNames: ['QueueArn']}))
+         const attribs = attribsResponse.Attributes
+         console.log(attribs)
+         const queueArn = attribs.QueueArn
+         // subscribe SQS queue to SNS topic
+         const subscribed = await snsClient.send(new SubscribeCommand({TopicArn: topicArn, Protocol:'sqs', Endpoint: queueArn}))
+         const policy = {
+           Version: "2012-10-17",
+           Statement: [
+             {
+               Sid: "MyPolicy",
+               Effect: "Allow",
+               Principal: {AWS: "*"},
+               Action: "SQS:SendMessage",
+               Resource: queueArn,
+               Condition: {
+                 ArnEquals: {
+                   'aws:SourceArn': topicArn
+                 }
+               }
+             }
+           ]
+         };
+     
+         const response = sqsClient.send(new SetQueueAttributesCommand({QueueUrl: sqsQueueUrl, Attributes: {Policy: JSON.stringify(policy)}}))
+         console.log(response)
+         console.log(sqsQueueUrl, topicArn)
+         return [sqsQueueUrl, topicArn]
+     
+       } catch (err) {
+         console.log("Error", err);
+   
+       }
+     }
+   
+     const deleteTopicAndQueue = async (sqsQueueUrlArg, snsTopicArnArg) => {
+       const deleteQueue = await sqsClient.send(new DeleteQueueCommand({QueueUrl: sqsQueueUrlArg}));
+       const deleteTopic = await snsClient.send(new DeleteTopicCommand({TopicArn: snsTopicArnArg}));
+       console.log("Successfully deleted.")
+     }
+   
+     const displayBlockInfo = async (block) => {
+       console.log(`Block ID: ${block.Id}`)
+       console.log(`Block Type: ${block.BlockType}`)
+       if (String(block).includes(String("EntityTypes"))){
+           console.log(`EntityTypes: ${block.EntityTypes}`)
+       }
+       if (String(block).includes(String("Text"))){
+           console.log(`EntityTypes: ${block.Text}`)
+       }
+       if (!String(block.BlockType).includes('PAGE')){
+           console.log(`Confidence: ${block.Confidence}`)
+       }
+       console.log(`Page: ${block.Page}`)
+       if (String(block.BlockType).includes("CELL")){
+           console.log("Cell Information")
+           console.log(`Column: ${block.ColumnIndex}`)
+           console.log(`Row: ${block.RowIndex}`)
+           console.log(`Column Span: ${block.ColumnSpan}`)
+           console.log(`Row Span: ${block.RowSpan}`)
+           if (String(block).includes("Relationships")){
+               console.log(`Relationships: ${block.Relationships}`)
+           }
+       }
+   
+       console.log("Geometry")
+       console.log(`Bounding Box: ${JSON.stringify(block.Geometry.BoundingBox)}`)
+       console.log(`Polygon: ${JSON.stringify(block.Geometry.Polygon)}`)
+   
+       if (String(block.BlockType).includes('SELECTION_ELEMENT')){
+         console.log('Selection Element detected:')
+         if (String(block.SelectionStatus).includes('SELECTED')){
+           console.log('Selected')
+         } else {
+           console.log('Not Selected')
+         }
+   
+       }
+     }
+   
+     const GetResults = async (processType, JobID) => {
+   
+       var maxResults = 1000
+       var paginationToken = null
+       var finished = false
+   
+       while (finished == false){
+         var response = null
+         if (processType == 'ANALYSIS'){
+           if (paginationToken == null){
+             response = textractClient.send(new GetDocumentAnalysisCommand({JobId:JobID, MaxResults:maxResults}))
+         
+           }else{
+             response = textractClient.send(new GetDocumentAnalysisCommand({JobId:JobID, MaxResults:maxResults, NextToken:paginationToken}))
+           }
+         }
+           
+         if(processType == 'DETECTION'){
+           if (paginationToken == null){
+             response = textractClient.send(new GetDocumentTextDetectionCommand({JobId:JobID, MaxResults:maxResults}))
+         
+           }else{
+             response = textractClient.send(new GetDocumentTextDetectionCommand({JobId:JobID, MaxResults:maxResults, NextToken:paginationToken}))
+           }
+         }
+   
+         await new Promise(resolve => setTimeout(resolve, 5000));
+         console.log("Detected Documented Text")
+         console.log(response)
+         //console.log(Object.keys(response))
+         console.log(typeof(response))
+         var blocks = (await response).Blocks
+         console.log(blocks)
+         console.log(typeof(blocks))
+         var docMetadata = (await response).DocumentMetadata
+         var blockString = JSON.stringify(blocks)
+         var parsed = JSON.parse(JSON.stringify(blocks))
+         console.log(Object.keys(blocks))
+         console.log(`Pages: ${docMetadata.Pages}`)
+         blocks.forEach((block)=> {
+           displayBlockInfo(block)
+           console.log()
+           console.log()
+         })
+   
+         //console.log(blocks[0].BlockType)
+         //console.log(blocks[1].BlockType)
+   
+   
+         if(String(response).includes("NextToken")){
+           paginationToken = response.NextToken
+         }else{
+           finished = true
+         }
+       }
+   
+     }
+   
+   
+     // DELETE TOPIC AND QUEUE
+     const main = async () => {
+       var sqsAndTopic = await createTopicandQueue();
+       var process = await processDocumment(processType, bucket, documentName, roleArn, sqsAndTopic[0], sqsAndTopic[1])
+       var deleteResults = await deleteTopicAndQueue(sqsAndTopic[0], sqsAndTopic[1])
+     }
+   
+   main()
+   ```
+
 ------
 
-1. Build and run the code\. The operation might take a while to finish\. After it's finished, a list of blocks for detected or analyzed text is displayed\.
+1. Run the code\. The operation might take a while to finish\. After it's finished, a list of blocks for detected or analyzed text is displayed\.

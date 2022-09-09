@@ -1,6 +1,6 @@
-# Other Examples<a name="other-examples"></a>
+# Additional Code Samples<a name="other-examples"></a>
 
-These are links to other code examples that you can use with Amazon Textract\.
+The following table provides links to more Amazon Textract code examples\.
 
 
 | Example | Description | 

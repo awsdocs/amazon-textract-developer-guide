@@ -2,6 +2,8 @@
 
 With CloudWatch, you can get metrics for individual Amazon Textract operations or global Amazon Textract metrics for your account\. You can use metrics to track the health of your Amazon Textract–based solution, and set up alarms to notify you when one or more metrics fall outside a defined threshold\. For example, you can see metrics for the number of server errors that have occurred\. You can also see metrics for the number of times a specific Amazon Textract operation has succeeded\. To see metrics, you can use [Amazon CloudWatch](https://console.aws.amazon.com/cloudwatch/), the [AWS CLI](https://docs.aws.amazon.com/AmazonCloudWatch/latest/cli/), or the [CloudWatch API](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/)\.
 
+
+
 ## Using CloudWatch Metrics for Amazon Textract<a name="using-metrics"></a>
 
 To use metrics, you must specify the following information:
@@ -19,7 +21,7 @@ The following list shows some common uses for the metrics\. These are suggestion
 | --- | --- | 
 |  How do I know if my application has reached the maximum number of requests per second?  |  Monitor the `Sum` statistic of the `ThrottledCount` metric\.  | 
 |  How can I monitor the request errors?  |  Use the `Sum` statistic of the `UserErrorCount` metric\.  | 
-|  How can I find the total number of requests?  |  Use the `ResponseTime` and `Data Samples` statistic of the `ResponseTime` metric\. This includes any request that results in an error\. If you want to see only successful operation calls, use the `SuccessfulRequestCount` metric\.  | 
+|  How can I find the total number of requests?  |  Use the `SampleCount` statistic of the `ResponseTime` metric\. This includes any request that results in an error\. If you want to see only successful operation calls, use the `SuccessfulRequestCount` metric\.  | 
 |  How can I monitor the latency of Amazon Textract operation calls?  |  Use the `ResponseTime` metric\.  | 
 
 You must have the appropriate CloudWatch permissions to monitor Amazon Textract with CloudWatch\. For more information, see [Authentication and Access Control for Amazon CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/auth-and-access-control-cw.html)\.
@@ -64,6 +66,8 @@ The following examples show how to access Amazon Textract metrics using the Clou
 You can create a CloudWatch alarm that sends an Amazon Simple Notification Service \(Amazon SNS\) message when the alarm changes state\. An alarm watches a single metric over a time period that you specify\. It performs one or more actions based on the value of the metric relative to a given threshold over a number of time periods\. The action is a notification sent to an Amazon SNS topic or an Auto Scaling policy\.
 
 Alarms invoke actions for sustained state changes only\. CloudWatch alarms don't invoke actions simply because they are in a particular state\. The state must have changed and have been maintained for a specified number of time periods\. 
+
+
 
 **To set an alarm \(console\)**
 

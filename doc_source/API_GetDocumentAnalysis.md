@@ -8,6 +8,11 @@ You start asynchronous text analysis by calling [StartDocumentAnalysis](API_Star
 + Form data \(key\-value pairs\)\. The related information is returned in two [Block](API_Block.md) objects, each of type `KEY_VALUE_SET`: a KEY `Block` object and a VALUE `Block` object\. For example, *Name: Ana Silva Carolina* contains a key and value\. *Name:* is the key\. *Ana Silva Carolina* is the value\.
 + Table and table cell data\. A TABLE `Block` object contains information about a detected table\. A CELL `Block` object is returned for each cell in a table\.
 + Lines and words of text\. A LINE `Block` object contains one or more WORD `Block` objects\. All lines and words that are detected in the document are returned \(including text that doesn't have a relationship with the value of the `StartDocumentAnalysis` `FeatureTypes` input parameter\)\. 
++ Query\. A QUERY Block object contains the query text, alias and link to the associated Query results block object\.
++ Query Results\. A QUERY\_RESULT Block object contains the answer to the query and an ID that connects it to the query asked\. This Block also contains a confidence score\.
+
+**Note**  
+While processing a document with queries, look out for `INVALID_REQUEST_PARAMETERS` output\. This indicates that either the per page query limit has been exceeded or that the operation is trying to query a page in the document which doesn’t exist\. 
 
 Selection elements such as check boxes and option buttons \(radio buttons\) can be detected in form data and in tables\. A SELECTION\_ELEMENT `Block` object contains information about a selection element, including the selection status\.
 
@@ -19,9 +24,9 @@ For more information, see [Document Text Analysis](https://docs.aws.amazon.com/t
 
 ```
 {
-   "[JobId](#Textract-GetDocumentAnalysis-request-JobId)": "string",
-   "[MaxResults](#Textract-GetDocumentAnalysis-request-MaxResults)": number,
-   "[NextToken](#Textract-GetDocumentAnalysis-request-NextToken)": "string"
+   "JobId": "string",
+   "MaxResults": number,
+   "NextToken": "string"
 }
 ```
 
@@ -53,52 +58,58 @@ Required: No
 
 ```
 {
-   "[AnalyzeDocumentModelVersion](#Textract-GetDocumentAnalysis-response-AnalyzeDocumentModelVersion)": "string",
-   "[Blocks](#Textract-GetDocumentAnalysis-response-Blocks)": [ 
+   "AnalyzeDocumentModelVersion": "string",
+   "Blocks": [ 
       { 
-         "[BlockType](API_Block.md#Textract-Type-Block-BlockType)": "string",
-         "[ColumnIndex](API_Block.md#Textract-Type-Block-ColumnIndex)": number,
-         "[ColumnSpan](API_Block.md#Textract-Type-Block-ColumnSpan)": number,
-         "[Confidence](API_Block.md#Textract-Type-Block-Confidence)": number,
-         "[EntityTypes](API_Block.md#Textract-Type-Block-EntityTypes)": [ "string" ],
-         "[Geometry](API_Block.md#Textract-Type-Block-Geometry)": { 
-            "[BoundingBox](API_Geometry.md#Textract-Type-Geometry-BoundingBox)": { 
-               "[Height](API_BoundingBox.md#Textract-Type-BoundingBox-Height)": number,
-               "[Left](API_BoundingBox.md#Textract-Type-BoundingBox-Left)": number,
-               "[Top](API_BoundingBox.md#Textract-Type-BoundingBox-Top)": number,
-               "[Width](API_BoundingBox.md#Textract-Type-BoundingBox-Width)": number
+         "BlockType": "string",
+         "ColumnIndex": number,
+         "ColumnSpan": number,
+         "Confidence": number,
+         "EntityTypes": [ "string" ],
+         "Geometry": { 
+            "BoundingBox": { 
+               "Height": number,
+               "Left": number,
+               "Top": number,
+               "Width": number
             },
-            "[Polygon](API_Geometry.md#Textract-Type-Geometry-Polygon)": [ 
+            "Polygon": [ 
                { 
-                  "[X](API_Point.md#Textract-Type-Point-X)": number,
-                  "[Y](API_Point.md#Textract-Type-Point-Y)": number
+                  "X": number,
+                  "Y": number
                }
             ]
          },
-         "[Id](API_Block.md#Textract-Type-Block-Id)": "string",
-         "[Page](API_Block.md#Textract-Type-Block-Page)": number,
-         "[Relationships](API_Block.md#Textract-Type-Block-Relationships)": [ 
+         "Id": "string",
+         "Page": number,
+         "Query": { 
+            "Alias": "string",
+            "Pages": [ "string" ],
+            "Text": "string"
+         },
+         "Relationships": [ 
             { 
-               "[Ids](API_Relationship.md#Textract-Type-Relationship-Ids)": [ "string" ],
-               "[Type](API_Relationship.md#Textract-Type-Relationship-Type)": "string"
+               "Ids": [ "string" ],
+               "Type": "string"
             }
          ],
-         "[RowIndex](API_Block.md#Textract-Type-Block-RowIndex)": number,
-         "[RowSpan](API_Block.md#Textract-Type-Block-RowSpan)": number,
-         "[SelectionStatus](API_Block.md#Textract-Type-Block-SelectionStatus)": "string",
-         "[Text](API_Block.md#Textract-Type-Block-Text)": "string"
+         "RowIndex": number,
+         "RowSpan": number,
+         "SelectionStatus": "string",
+         "Text": "string",
+         "TextType": "string"
       }
    ],
-   "[DocumentMetadata](#Textract-GetDocumentAnalysis-response-DocumentMetadata)": { 
-      "[Pages](API_DocumentMetadata.md#Textract-Type-DocumentMetadata-Pages)": number
+   "DocumentMetadata": { 
+      "Pages": number
    },
-   "[JobStatus](#Textract-GetDocumentAnalysis-response-JobStatus)": "string",
-   "[NextToken](#Textract-GetDocumentAnalysis-response-NextToken)": "string",
-   "[StatusMessage](#Textract-GetDocumentAnalysis-response-StatusMessage)": "string",
-   "[Warnings](#Textract-GetDocumentAnalysis-response-Warnings)": [ 
+   "JobStatus": "string",
+   "NextToken": "string",
+   "StatusMessage": "string",
+   "Warnings": [ 
       { 
-         "[ErrorCode](API_Warning.md#Textract-Type-Warning-ErrorCode)": "string",
-         "[Pages](API_Warning.md#Textract-Type-Warning-Pages)": [ number ]
+         "ErrorCode": "string",
+         "Pages": [ number ]
       }
    ]
 }
@@ -111,6 +122,7 @@ If the action is successful, the service sends back an HTTP 200 response\.
 The following data is returned in JSON format by the service\.
 
  ** [AnalyzeDocumentModelVersion](#API_GetDocumentAnalysis_ResponseSyntax) **   <a name="Textract-GetDocumentAnalysis-response-AnalyzeDocumentModelVersion"></a>
+  
 Type: String
 
  ** [Blocks](#API_GetDocumentAnalysis_ResponseSyntax) **   <a name="Textract-GetDocumentAnalysis-response-Blocks"></a>
@@ -142,27 +154,35 @@ Type: Array of [Warning](API_Warning.md) objects
 
 ## Errors<a name="API_GetDocumentAnalysis_Errors"></a>
 
- **AccessDeniedException**   
-You aren't authorized to perform the action\.  
+ ** AccessDeniedException **   
+You aren't authorized to perform the action\. Use the Amazon Resource Name \(ARN\) of an authorized user or IAM role to perform the operation\.  
 HTTP Status Code: 400
 
- **InternalServerError**   
+ ** InternalServerError **   
 Amazon Textract experienced a service issue\. Try your call again\.  
 HTTP Status Code: 500
 
- **InvalidJobIdException**   
-An invalid job identifier was passed to [GetDocumentAnalysis](#API_GetDocumentAnalysis) or to [GetDocumentTextDetection](#API_GetDocumentTextDetection)\.  
+ ** InvalidJobIdException **   
+An invalid job identifier was passed to [GetDocumentAnalysis](#API_GetDocumentAnalysis) or to [GetDocumentAnalysis](#API_GetDocumentAnalysis)\.  
 HTTP Status Code: 400
 
- **InvalidParameterException**   
+ ** InvalidKMSKeyException **   
+ Indicates you do not have decrypt permissions with the KMS key entered, or the KMS key was entered incorrectly\.   
+HTTP Status Code: 400
+
+ ** InvalidParameterException **   
 An input parameter violated a constraint\. For example, in synchronous operations, an `InvalidParameterException` exception occurs when neither of the `S3Object` or `Bytes` values are supplied in the `Document` request parameter\. Validate your parameter before calling the API operation again\.  
 HTTP Status Code: 400
 
- **ProvisionedThroughputExceededException**   
+ ** InvalidS3ObjectException **   
+Amazon Textract is unable to access the S3 object that's specified in the request\. for more information, [Configure Access to Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html) For troubleshooting information, see [Troubleshooting Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/troubleshooting.html)   
+HTTP Status Code: 400
+
+ ** ProvisionedThroughputExceededException **   
 The number of requests exceeded your throughput limit\. If you want to increase this limit, contact Amazon Textract\.  
 HTTP Status Code: 400
 
- **ThrottlingException**   
+ ** ThrottlingException **   
 Amazon Textract is temporarily unable to process the request\. Try your call again\.  
 HTTP Status Code: 500
 
@@ -173,7 +193,7 @@ For more information about using this API in one of the language\-specific AWS S
 +  [AWS SDK for \.NET](https://docs.aws.amazon.com/goto/DotNetSDKV3/textract-2018-06-27/GetDocumentAnalysis) 
 +  [AWS SDK for C\+\+](https://docs.aws.amazon.com/goto/SdkForCpp/textract-2018-06-27/GetDocumentAnalysis) 
 +  [AWS SDK for Go](https://docs.aws.amazon.com/goto/SdkForGoV1/textract-2018-06-27/GetDocumentAnalysis) 
-+  [AWS SDK for Java](https://docs.aws.amazon.com/goto/SdkForJava/textract-2018-06-27/GetDocumentAnalysis) 
++  [AWS SDK for Java V2](https://docs.aws.amazon.com/goto/SdkForJavaV2/textract-2018-06-27/GetDocumentAnalysis) 
 +  [AWS SDK for JavaScript](https://docs.aws.amazon.com/goto/AWSJavaScriptSDK/textract-2018-06-27/GetDocumentAnalysis) 
 +  [AWS SDK for PHP V3](https://docs.aws.amazon.com/goto/SdkForPHPV3/textract-2018-06-27/GetDocumentAnalysis) 
 +  [AWS SDK for Python](https://docs.aws.amazon.com/goto/boto3/textract-2018-06-27/GetDocumentAnalysis) 

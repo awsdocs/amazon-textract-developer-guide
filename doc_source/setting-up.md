@@ -34,6 +34,8 @@ You can then access AWS by using a special URL and that IAM user's credentials\.
 
 If you signed up for AWS, but you haven't created an IAM user for yourself, you can create one by using the IAM console\. Follow the procedure to create an IAM user in your account\.
 
+
+
 **To create an IAM user and sign in to the console**
 
 1. Create an IAM user with administrator permissions in your AWS account\. For instructions, see [Creating Your First IAM User and Administrators Group](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html) in the *IAM User Guide*\.
@@ -43,9 +45,11 @@ If you signed up for AWS, but you haven't created an IAM user for yourself, you 
 **Note**  
 An IAM user with administrator permissions has unrestricted access to the AWS services in your account\.  The code examples in this guide assume that you have a user with the `AmazonTextractFullAccess` permissions\. `AmazonS3ReadOnlyAccess` is required for examples that access documents that are stored in an Amazon S3 bucket\. Depending on your security requirements, you might want to use an IAM group that's limited to these permissions\. For more information, see [Creating IAM Groups](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_create.html)\.
 
+
+
 For more information about IAM, see the following:
 + [AWS Identity and Access Management \(IAM\)](https://aws.amazon.com/iam/)
-+ [Getting Started](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started.html)
++ [Getting started](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started.html)
 + [IAM User Guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/)
 
 ## Next Step<a name="setting-up-next-step-2"></a>

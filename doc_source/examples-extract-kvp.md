@@ -2,12 +2,9 @@
 
 The following Python example shows how to extract key\-value pairs in form documents from [Block](API_Block.md) objects that are stored in a map\. Block objects are returned from a call to [AnalyzeDocument](API_AnalyzeDocument.md)\. For more information, see [Form Data \(Key\-Value Pairs\)](how-it-works-kvp.md)\.
 
-The functions that are specific to Amazon Textract are: 
+You use the following functions: 
 + `get_kv_map` – Calls [AnalyzeDocument](API_AnalyzeDocument.md), and stores the KEY and VALUE BLOCK objects in a map\.
 + `get_kv_relationship` and `find_value_block` – Constructs the key\-value relationships from the map\.
-
-**Note**  
-You can download the source file from [textract\_python\_kv\_parser\.py](https://github.com/awsdocs/aws-doc-sdk-examples/blob/master/python/example_code/textract/textract_python_kv_parser.py)\.
 
 **To extract key\-value pairs from a form document**
 
@@ -20,10 +17,10 @@ You can download the source file from [textract\_python\_kv\_parser\.py](https:/
    import sys
    import re
    import json
+   from collections import defaultdict
    
    
    def get_kv_map(file_name):
-   
        with open(file_name, 'rb') as file:
            img_test = file.read()
            bytes_test = bytearray(img_test)
@@ -34,8 +31,7 @@ You can download the source file from [textract\_python\_kv\_parser\.py](https:/
        response = client.analyze_document(Document={'Bytes': bytes_test}, FeatureTypes=['FORMS'])
    
        # Get the text blocks
-       blocks=response['Blocks']
-       
+       blocks = response['Blocks']
    
        # get key and value maps
        key_map = {}
@@ -54,12 +50,12 @@ You can download the source file from [textract\_python\_kv\_parser\.py](https:/
    
    
    def get_kv_relationship(key_map, value_map, block_map):
-       kvs = {}
+       kvs = defaultdict(list)
        for block_id, key_block in key_map.items():
            value_block = find_value_block(key_block, value_map)
            key = get_text(key_block, block_map)
            val = get_text(value_block, block_map)
-           kvs[key] = val
+           kvs[key].append(val)
        return kvs
    
    
@@ -82,9 +78,8 @@ You can download the source file from [textract\_python\_kv\_parser\.py](https:/
                            text += word['Text'] + ' '
                        if word['BlockType'] == 'SELECTION_ELEMENT':
                            if word['SelectionStatus'] == 'SELECTED':
-                               text += 'X '    
+                               text += 'X '
    
-                                   
        return text
    
    
@@ -98,8 +93,8 @@ You can download the source file from [textract\_python\_kv\_parser\.py](https:/
            if re.search(search_key, key, re.IGNORECASE):
                return value
    
-   def main(file_name):
    
+   def main(file_name):
        key_map, value_map, block_map = get_kv_map(file_name)
    
        # Get Key Value relationship
@@ -123,4 +118,4 @@ You can download the source file from [textract\_python\_kv\_parser\.py](https:/
    textract_python_kv_parser.py file
    ```
 
-1. When you're prompted, enter a key that's part of the input document\. If the key is detected, the program displays the value that's associated with the key\.
+1. When you're prompted, enter a key that's in the input document\. If the code detects the key, it displays the key's value\. 

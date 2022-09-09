@@ -1,19 +1,20 @@
-# Documents and Block Objects<a name="how-it-works-document-layout"></a>
+# Text Detection and Document Analysis Response Objects<a name="how-it-works-document-layout"></a>
 
 When Amazon Textract processes a document, it creates a list of [Block](API_Block.md) objects for the detected or analyzed text\. Each block contains information about a detected item, where it's located, and the confidence that Amazon Textract has in the accuracy of the processing\.
 
 A document is made up from the following types of `Block` objects\.
 + [Pages](how-it-works-pages.md)
 +  [Lines and words of text](how-it-works-lines-words.md) 
-+  [Form data \(Key\-value pairs\)](how-it-works-kvp.md) 
-+  [Tables](how-it-works-tables.md) 
++  [Form Data \(Key\-value pairs\)](how-it-works-kvp.md) 
++  [Tables and Cells](how-it-works-tables.md) 
 + [Selection elements](how-it-works-selectables.md)
++ [Queries](queryresponse.md)
 
-The contents of a block depend on the operation you call\. If you call one of the text detection operations, the pages, lines, and words of detected text are returned\. For more information, see [Detecting Text](how-it-works-detecting.md)\. If you call one of the document analysis operations, information about detected pages, key\-value pairs, tables, selection elements, and text is returned\. For more information, see [Analyzing Text](how-it-works-analyzing.md)\.
+The contents of a block depend on the operation you call\. If you call one of the text detection operations, the pages, lines, and words of detected text are returned\. For more information, see [Detecting Text](how-it-works-detecting.md)\. If you call one of the document analysis operations, information about detected pages, key\-value pairs, tables, selection elements, and text is returned\. For more information, see [Analyzing Documents](how-it-works-analyzing.md)\.
 
 Some `Block` object fields are common to both types of processing\. For example, each block has a unique identifier\.
 
-For examples that show how to use `Block` objects, see [Examples](examples-blocks.md)\.
+For examples that show how to use `Block` objects, see [Tutorials](examples-blocks.md)\.
 
 ## Document Layout<a name="hows-it-works-blocks-types.title"></a>
 
@@ -79,7 +80,7 @@ A `Block` object contains a list of related `Block` objects in the `Relationship
 
 Child blocks don't have information about their parent Block objects\.
 
-For examples that show `Block` information, see [Detecting and Analyzing Text in Single\-Page Documents](sync.md)\.
+For examples that show `Block` information, see [Processing Documents with Synchronous Operations](sync.md)\.
 
 ## Confidence<a name="how-it-works-confidence"></a>
 
@@ -87,4 +88,4 @@ Amazon Textract operations return the percentage confidence that Amazon Textract
 
 ## Geometry<a name="how-it-works-geometry"></a>
 
-Amazon Textract operations return location information about the location of detected items on a document page\. To get the location, use the `Geometry` field of the `Block` object\. For more information, see [Item Location on a Document Page](text-location.md)\. 
+Amazon Textract operations, with the exception of identity analysis, return location information about the location of detected items on a document page\. To get the location, use the `Geometry` field of the `Block` object\. For more information, see [Item Location on a Document Page](text-location.md) 

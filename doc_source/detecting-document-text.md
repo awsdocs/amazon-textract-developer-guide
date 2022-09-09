@@ -14,7 +14,7 @@ You can provide an input document as an image byte array \(base64\-encoded image
 
 1. Upload a document to your S3 bucket\. 
 
-   For instructions, see [Uploading Objects into Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/UploadingObjectsintoAmazonS3.html) in the *Amazon Simple Storage Service Console User Guide*\.
+   For instructions, see [Uploading Objects into Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/UploadingObjectsintoAmazonS3.html) in the *Amazon Simple Storage Service User Guide*\.
 
 1. Use the following examples to call the `DetectDocumentText` operation\.
 
@@ -251,15 +251,7 @@ You can provide an input document as an image byte array \(base64\-encoded image
    #Detects text in a document stored in an S3 bucket. Display polygon box around text and angled text 
    import boto3
    import io
-   from io import BytesIO
-   import sys
-   
-   import psutil
-   import time
-   
-   import math
-   from PIL import Image, ImageDraw, ImageFont
-   
+   from PIL import Image, ImageDraw
    
    # Displays information about a block returned by text detection and text analysis
    def DisplayBlockInformation(block):
@@ -275,7 +267,7 @@ You can provide an input document as an image byte array \(base64\-encoded image
            print("    Cell information")
            print("        Column: " + str(block['ColumnIndex']))
            print("        Row: " + str(block['RowIndex']))
-           print("        Column Span: " + str(block['ColumnSpan']))
+           print("        ColumnSpan: " + str(block['ColumnSpan']))
            print("        RowSpan: " + str(block['RowSpan']))    
        
        if 'Relationships' in block:
@@ -290,9 +282,8 @@ You can provide an input document as an image byte array \(base64\-encoded image
            print('Page: ' + block['Page'])
        print()
    
-   def process_text_detection(bucket, document):
+   def process_text_detection(bucket, document, region):
    
-       
        #Get the document from S3
        s3_connection = boto3.resource('s3')
                              
@@ -304,9 +295,9 @@ You can provide an input document as an image byte array \(base64\-encoded image
    
       
        # Detect text in the document
-       
-       client = boto3.client('textract')
-       #process using image bytes                      
+       client = boto3.client('textract', region_name=region)
+   
+       #To process using image bytes:                      
        #image_binary = stream.getvalue()
        #response = client.detect_document_text(Document={'Bytes': image_binary})
    
@@ -316,8 +307,7 @@ You can provide an input document as an image byte array \(base64\-encoded image
    
        #Get the text blocks
        blocks=response['Blocks']
-       width, height =image.size  
-       draw = ImageDraw.Draw(image)  
+       width, height =image.size    
        print ('Detected Document Text')
       
        # Create image showing bounding box/polygon the detected lines/text
@@ -358,30 +348,127 @@ You can provide an input document as an image byte array \(base64\-encoded image
                        points.append((width * polygon['X'], height * polygon['Y']))
    
                    draw.polygon((points), outline='black')    
-     
-                   # Uncomment to draw bounding box
-                   #box=block['Geometry']['BoundingBox']                    
-                   #left = width * box['Left']
-                   #top = height * box['Top']           
-                   #draw.rectangle([left,top, left + (width * box['Width']), top +(height * box['Height'])],outline='black') 
-   
    
        # Display the image
        image.show()
-       # display image for 10 seconds
    
-       
        return len(blocks)
    
    def main():
    
        bucket = ''
        document = ''
-       block_count=process_text_detection(bucket,document)
+       region=''
+       block_count=process_text_detection(bucket,document,region)
        print("Blocks detected: " + str(block_count))
        
    if __name__ == "__main__":
        main()
+   ```
+
+------
+#### [ Node\.js ]
+
+   The following Node\.js example code displays the document and boxes around detected lines of text, outputting an image of the results to the directory you run the code from\. It makes use of the `image-size` and `images` packages\.
+
+   In the function `main`, replace the values of `bucket` and `document` with the names of the Amazon S3 bucket and document that you used in step 2\. Replace the value of `regionConfig` with the name of the region your account is in\.
+
+   ```
+   async function main(){
+   
+   // Import AWS
+   const AWS = require("aws-sdk")
+   // Use Image-Size to get 
+   const sizeOf = require('image-size');
+   // Image tool to draw buffers
+   const images = require("images");
+   
+   // Create a canvas and get the context
+   const { createCanvas } = require('canvas')
+   const canvas = createCanvas(200, 200)
+   const ctx = canvas.getContext('2d')
+   
+   // Set variables
+   const bucket = 'bucket-name' // the s3 bucket name
+   const photo  = 'image-name' // the name of file
+   const regionConfig = 'region'
+   
+   // Set region if needed
+   AWS.config.update({region:regionConfig});
+   
+   // Connect to Textract
+   const client = new AWS.Textract();
+   // Connect to S3 to display image
+   const s3 = new AWS.S3();
+   
+   // Define paramaters
+   const params = {
+     Document: {
+       S3Object: {
+         Bucket: bucket,
+         Name: photo
+       },
+     },
+   }
+   
+   // Function to display image
+   async function getImage(){
+     const imageData =  s3.getObject(
+       {
+           Bucket: bucket,
+           Key: photo
+         }
+       
+     ).promise();
+     return imageData;
+   }
+   
+   // get image
+   var imageData = await getImage()
+   
+   // Get the height, width of the image
+   const dimensions = sizeOf(imageData.Body)
+   const width = dimensions.width
+   const height = dimensions.height
+   console.log(imageData.Body)
+   console.log(width, height)
+   
+   canvas.width = width;
+   canvas.height = height;
+   
+   try{
+     // Call API and log response
+     const res = await client.detectDocumentText(params).promise();
+     var image = images(imageData.Body).size(width, height)
+     //console.log the type of block, text, text type, and confidence
+     res.Blocks.forEach(block => {
+       console.log(`Block Type: ${block.BlockType}`),
+       console.log(`Text: ${block.Text}`)
+       console.log(`TextType: ${block.TextType}`)
+       console.log(`Confidence: ${block.Confidence}`)
+   
+       // Draw box around detected text using polygons
+       ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+       ctx.beginPath();
+       block.Geometry.Polygon.forEach(({X, Y}) =>
+       ctx.lineTo(width * X - 10, height * Y - 10)
+       );
+       ctx.closePath();
+       ctx.stroke();
+       console.log("-----")
+     }) 
+   
+     // render image
+     var buffer = canvas.toBuffer("image/png");
+     image.draw(images(buffer), 10, 10)
+     image.save("output-image.jpg");
+     
+   } catch (err){
+   console.error(err);}
+   
+   }
+   
+   main()
    ```
 
 ------

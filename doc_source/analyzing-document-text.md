@@ -1,6 +1,6 @@
 # Analyzing Document Text with Amazon Textract<a name="analyzing-document-text"></a>
 
-To analyze text in a document, you use the [AnalyzeDocument](API_AnalyzeDocument.md) operation, and pass a document file as input\. `AnalyzeDocument` returns a JSON structure that contains the analyzed text\. For more information, see [Analyzing Text](how-it-works-analyzing.md)\. 
+To analyze text in a document, you use the [AnalyzeDocument](API_AnalyzeDocument.md) operation, and pass a document file as input\. `AnalyzeDocument` returns a JSON structure that contains the analyzed text\. For more information, see [Analyzing Documents](how-it-works-analyzing.md)\. 
 
 You can provide an input document as an image byte array \(base64\-encoded image bytes\), or as an Amazon S3 object\. In this procedure, you upload an image file to your S3 bucket and specify the file name\. 
 
@@ -14,7 +14,7 @@ You can provide an input document as an image byte array \(base64\-encoded image
 
 1. Upload an image that contains a document to your S3 bucket\. 
 
-   For instructions, see [Uploading Objects into Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/UploadingObjectsintoAmazonS3.html) in the *Amazon Simple Storage Service Console User Guide*\.
+   For instructions, see [Uploading Objects into Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/upload-objects.html) in the *Amazon Simple Storage Service User Guide*\.
 
 1. Use the following examples to call the `AnalyzeDocument` operation\.
 
@@ -268,6 +268,15 @@ You can provide an input document as an image byte array \(base64\-encoded image
     --feature-types '["TABLES","FORMS"]'
    ```
 
+   In order to use the Queries feature, include the '`QUERIES`' value in the '`feature-types`' parameter and then provide a `Queries` object to the '`queries-config`' parameter\. 
+
+   ```
+   aws textract analyze-document \ 
+   --document '{"S3Object":{"Bucket":"bucket","Name":"document"}}'\
+    --feature-types '["QUERIES"]' \
+   --queries-config '{"Queries":[{"Text":"Question"}]}'
+   ```
+
 ------
 #### [ Python ]
 
@@ -279,11 +288,7 @@ You can provide an input document as an image byte array \(base64\-encoded image
    #Analyzes text in a document stored in an S3 bucket. Display polygon box around text and angled text 
    import boto3
    import io
-   from io import BytesIO
-   import sys
-   
-   import math
-   from PIL import Image, ImageDraw, ImageFont
+   from PIL import Image, ImageDraw
    
    def ShowBoundingBox(draw,box,width,height,boxColor):
                 
@@ -335,7 +340,7 @@ You can provide an input document as an image byte array \(base64\-encoded image
            print('Page: ' + block['Page'])
        print()
    
-   def process_text_analysis(bucket, document):
+   def process_text_analysis(bucket, document, region):
    
        #Get the document from S3
        s3_connection = boto3.resource('s3')
@@ -347,72 +352,173 @@ You can provide an input document as an image byte array \(base64\-encoded image
        image=Image.open(stream)
    
        # Analyze the document
-       client = boto3.client('textract')
+       client = boto3.client('textract', region_name=region)
        
        image_binary = stream.getvalue()
        response = client.analyze_document(Document={'Bytes': image_binary},
            FeatureTypes=["TABLES", "FORMS"])
-     
    
-       # Alternatively, process using S3 object
+       ### Uncomment to process using S3 object ###
        #response = client.analyze_document(
        #    Document={'S3Object': {'Bucket': bucket, 'Name': document}},
        #    FeatureTypes=["TABLES", "FORMS"])
    
+       ### Uncomment to analyze a local file ###
+       # with open("pathToFile", 'rb') as img_file:
+           ### To display image using PIL ###
+       #    image = Image.open()
+           ### Read bytes ###
+       #    img_bytes = img_file.read()
+       #    response = client.analyze_document(Document={'Bytes': img_bytes}, FeatureTypes=["TABLES", "FORMS"])
        
        #Get the text blocks
        blocks=response['Blocks']
-       width, height =image.size  
-       draw = ImageDraw.Draw(image)  
+       width, height =image.size    
        print ('Detected Document Text')
       
        # Create image showing bounding box/polygon the detected lines/text
        for block in blocks:
-   
-           DisplayBlockInformation(block)
-                
+           DisplayBlockInformation(block)    
            draw=ImageDraw.Draw(image)
+   
+           # Draw bounding boxes for different detected response objects
            if block['BlockType'] == "KEY_VALUE_SET":
                if block['EntityTypes'][0] == "KEY":
                    ShowBoundingBox(draw, block['Geometry']['BoundingBox'],width,height,'red')
                else:
-                   ShowBoundingBox(draw, block['Geometry']['BoundingBox'],width,height,'green')  
-               
+                   ShowBoundingBox(draw, block['Geometry']['BoundingBox'],width,height,'green')             
            if block['BlockType'] == 'TABLE':
                ShowBoundingBox(draw, block['Geometry']['BoundingBox'],width,height, 'blue')
-   
            if block['BlockType'] == 'CELL':
                ShowBoundingBox(draw, block['Geometry']['BoundingBox'],width,height, 'yellow')
            if block['BlockType'] == 'SELECTION_ELEMENT':
                if block['SelectionStatus'] =='SELECTED':
                    ShowSelectedElement(draw, block['Geometry']['BoundingBox'],width,height, 'blue')    
-      
-               #uncomment to draw polygon for all Blocks
-               #points=[]
-               #for polygon in block['Geometry']['Polygon']:
-               #    points.append((width * polygon['X'], height * polygon['Y']))
-               #draw.polygon((points), outline='blue')
                
        # Display the image
        image.show()
        return len(blocks)
    
-   
    def main():
    
-       bucket = ''
-       document = ''
-       block_count=process_text_analysis(bucket,document)
+       bucket = ""
+       document = ""
+       region = ""
+       block_count=process_text_analysis(bucket, document, region)
        print("Blocks detected: " + str(block_count))
        
    if __name__ == "__main__":
        main()
    ```
 
+   In order to use different features of the `AnalyzeDocument` operation, you provide the proper feature type to the `features-type` parameter\. For example, to use the Queries feature, include the `QUERIES` value in the `feature-types` parameter and then provide a `Queries` object to the `queries-config` parameter\. To query your document, add the `query_document` function in the following code to the proceeding code example and then include the `question` variable and line that invokes the `query_document` function to the `main` function above\.
+
+   ```
+   def query_document(bucket, document, region, question):
+       # Analyze the document
+       client = boto3.client('textract', region_name=region)
+       response = client.analyze_document(Document={'S3Object': {'Bucket': bucket, 'Name': document}},
+                                          FeatureTypes=["TABLES", "FORMS", "QUERIES"],
+                                          QueriesConfig={'Queries':[
+                                              {'Text':'{}'.format(question)}
+                                          ]})
+       
+       for block in response['Blocks']:
+           if block["BlockType"] == "QUERY":
+               print("Query info:")
+               print(block["Query"])
+           #print(block)
+           if block["BlockType"] == "QUERY_RESULT":
+               print("Query answer:")
+               print(block["Text"])
+   
+   question = "query here"
+   query_document(bucket, document, region, question)
+   ```
+
+------
+#### [ Node\.js ]
+
+   The following example code displays the document and boxes around detected items\. 
+
+   In the code below, replace the values of `bucket` and `photo` with the names of the Amazon S3 bucket and document that you used in step 2\. Replace the value of `region` with the region associated with your account\.
+
+   ```
+   // Import required AWS SDK clients and commands for Node.js
+   import { AnalyzeDocumentCommand } from  "@aws-sdk/client-textract";
+   import  { TextractClient } from "@aws-sdk/client-textract";
+   
+   // Set the AWS Region.
+   const REGION = "region"; //e.g. "us-east-1"
+   // Create SNS service object.
+   const textractClient = new TextractClient({ region: REGION });
+   
+   const bucket = 'buckets'
+   const photo = 'photo'
+   
+   // Set params
+   const params = {
+       Document: {
+         S3Object: {
+           Bucket: bucket,
+           Name: photo
+         },
+       },
+       FeatureTypes: ['TABLES', 'FORMS'],
+     }
+   
+   const displayBlockInfo = async (response) => {
+       try {
+           response.Blocks.forEach(block => {
+               console.log(`ID: ${block.Id}`)
+               console.log(`Block Type: ${block.BlockType}`)
+               if ("Text" in block && block.Text !== undefined){
+                   console.log(`Text: ${block.Text}`)
+               }
+               else{}
+               if ("Confidence" in block && block.Confidence !== undefined){
+                   console.log(`Confidence: ${block.Confidence}`)
+               }
+               else{}
+               if (block.BlockType == 'CELL'){
+                   console.log("Cell info:")
+                   console.log(`   Column Index - ${block.ColumnIndex}`)
+                   console.log(`   Row - ${block.RowIndex}`)
+                   console.log(`   Column Span - ${block.ColumnSpan}`)
+                   console.log(`   Row Span - ${block.RowSpan}`)
+               }
+               if ("Relationships" in block && block.Relationships !== undefined){
+                   console.log(block.Relationships)
+                   console.log("Geometry:")
+                   console.log(`   Bounding Box - ${JSON.stringify(block.Geometry.BoundingBox)}`)
+                   console.log(`   Polygon - ${JSON.stringify(block.Geometry.Polygon)}`)
+               }
+               console.log("-----")
+           });
+         } catch (err) {
+           console.log("Error", err);
+         }
+   }
+   
+   const analyze_document_text = async () => {
+       try {
+           const analyzeDoc = new AnalyzeDocumentCommand(params);
+           const response = await textractClient.send(analyzeDoc);
+           //console.log(response)
+           displayBlockInfo(response)
+           return response; // For unit tests.
+         } catch (err) {
+           console.log("Error", err);
+         }
+   }
+   
+   analyze_document_text()
+   ```
+
 ------
 
 1. Run the example\. The Python and Java examples display the document image with the following colored bounding boxes:
-   + Red –KEY Block objects 
+   + Red – KEY Block objects 
    + Green – VALUE Block objects
    + Blue – TABLE Block objects
    + Yellow – CELL Block objects

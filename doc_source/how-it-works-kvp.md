@@ -4,13 +4,13 @@ Amazon Textract can extract form data from documents as key\-value pairs\. For e
 
 Name: Ana Carolina
 
-Detected key\-value pairs are returned as [Block](API_Block.md) objects in the responses from [AnalyzeDocument](API_AnalyzeDocument.md) and [GetDocumentAnalysis](API_GetDocumentAnalysis.md)\. You can use the `FeatureTypes` input parameter to retrieve information about key\-value pairs, tables, or both\. For key\-value pairs only, use the value `FORMS`\. For an example, see [Extracting Key\-Value Pairs from a Form Document](examples-extract-kvp.md)\. For general information about how a document is represented by `Block` objects, see [Documents and Block Objects](how-it-works-document-layout.md)\. 
+Detected key\-value pairs are returned as [Block](API_Block.md) objects in the responses from [AnalyzeDocument](API_AnalyzeDocument.md) and [GetDocumentAnalysis](API_GetDocumentAnalysis.md)\. You can use the `FeatureTypes` input parameter to retrieve information about key\-value pairs, tables, or both\. For key\-value pairs only, use the value `FORMS`\. For an example, see [Extracting Key\-Value Pairs from a Form Document](examples-extract-kvp.md)\. For general information about how a document is represented by `Block` objects, see [Text Detection and Document Analysis Response Objects](how-it-works-document-layout.md)\. 
 
 Block objects with the type KEY\_VALUE\_SET are the containers for KEY or VALUE Block objects that store information about linked text items detected in a document\. You can use the `EntityType` attribute to determine if a block is a KEY or a VALUE\. 
-+ A *KEY* object contains information about the key for linked text\. For example, *Name:*\. A KEY block has two relationship lists\. A relationship of type VALUE is a list that contains the ID of the VALUE block that's associated with the key\. A relationship of type CHILD is a list of IDs for the WORD blocks that make up the text of the key\.
-+ A *VALUE* object contains information about the text that's associated with a key\. In the preceding example, *Ana Carolina* is the value for the key *Name:*\. A VALUE block has a relationship with a list of CHILD blocks that identify WORD blocks\. Each WORD block contains one of the words that make up the text of the value\. A `VALUE` object can also contain information about selected elements\. For more information, see [Selection Elements](how-it-works-selectables.md)\.
++ A *KEY* object contains information about the key for linked text\. For example, *Name:*\. A KEY block has two relationship lists\. A relationship of type VALUE is a list that contains the ID of the VALUE block associated with the key\. A relationship of type CHILD is a list of IDs for the WORD blocks that make up the text of the key\.
++ A *VALUE* object contains information about the text associated with a key\. In the preceding example, *Ana Carolina* is the value for the key *Name:*\. A VALUE block has a relationship with a list of CHILD blocks that identify WORD blocks\. Each WORD block contains one of the words that make up the text of the value\. A `VALUE` object can also contain information about selected elements\. For more information, see [Selection Elements](how-it-works-selectables.md)\.
 
-Each instance of a KEY\_VALUE\_SET `Block` object is a child of the PAGE Block object that corresponds to the current page\.
+Each instance of a KEY\_VALUE\_SET `Block` object is a child of the PAGE `Block` object that corresponds to the current page\.
 
 The following diagram shows how the key\-value pair *Name: Ana Carolina* is represented by `Block` objects\.
 
@@ -96,6 +96,7 @@ The following JSON shows the `Block` objects for the words *Name:*, *Ana*, and *
 {
     "Geometry": {...}, 
     "Text": "Name:", 
+    "TextType": "PRINTED".
     "BlockType": "WORD", 
     "Confidence": 99.56285858154297, 
     "Id": "c734fca6-c4c4-415c-b6c1-30f7510b72ee"
@@ -103,6 +104,7 @@ The following JSON shows the `Block` objects for the words *Name:*, *Ana*, and *
  {
     "Geometry": {...}, 
     "Text": "Ana", 
+    "TextType": "PRINTED",
     "BlockType": "WORD", 
     "Confidence": 99.52057647705078, 
     "Id": "db553509-64ef-4ecf-ad3c-bea62cc1cd8a"
@@ -110,6 +112,7 @@ The following JSON shows the `Block` objects for the words *Name:*, *Ana*, and *
 {
     "Geometry": {...}, 
     "Text": "Carolina", 
+    "TextType": "PRINTED",
     "BlockType": "WORD", 
     "Confidence": 99.84207916259766, 
     "Id": "e5d7646c-eaa2-413a-95ad-f4ae19f53ef3"

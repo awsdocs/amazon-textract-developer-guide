@@ -2,7 +2,7 @@
 
 Amazon Textract operations return the location and geometry of items found on a document page\. [DetectDocumentText](API_DetectDocumentText.md) and [GetDocumentTextDetection](API_GetDocumentTextDetection.md) return the location and geometry for lines and words, while [AnalyzeDocument](API_AnalyzeDocument.md) and [GetDocumentAnalysis](API_GetDocumentAnalysis.md) return the location and geometry of key\-value pairs, tables, cells, and selection elements\.
 
-To determine where an item is on a document page, use the bounding box \([Geometry](API_Geometry.md)\) information that's returned by the Amazon Textract operation in a [Block](API_Block.md) object\. The `Geometry` object contains two types of location and geometric information for detected items:
+To determine where an item is on a document page, use the bounding box \([Geometry](API_Geometry.md)\) information returned by the Amazon Textract operation in a [Block](API_Block.md) object\. The `Geometry` object contains two types of location and geometric information for detected items:
 + An axis\-aligned [BoundingBox](API_BoundingBox.md) object that contains the top\-left coordinate and the width and height of the item\.
 + A polygon object that describes the outline of the item, specified as an array of [Point](API_Point.md) objects that contain `X` \(horizontal axis\) and `Y` \(vertical axis\) document page coordinates of each point\.
 
@@ -37,6 +37,7 @@ The JSON for a `Block` object looks similar to the following\. Note the `Boundin
         ]
     }, 
     "Text": "Name:", 
+    "TextType": "PRINTED",
     "BlockType": "WORD", 
     "Confidence": 99.56285858154297, 
     "Id": "c734fca6-c4c4-415c-b6c1-30f7510b72ee"
@@ -65,7 +66,7 @@ To display the bounding box with the correct location and size, you have to mult
 
 ```
 BoundingBox.Left: 0.3922065
-Bounding.Top: 0.15567766
+BoundingBox.Top: 0.15567766
 BoundingBox.Width: 0.284666
 BoundingBox.Height: 0.2930403
 ```
@@ -80,7 +81,10 @@ The location of the text bounding box in pixels is calculated as follows:
 
 `Bounding box height = BoundingBox.Height (0.2930403) * document page height (588) = 172`
 
-You use these values to display a bounding box around the analyzed text\. The following example shows how to display a bounding box\.
+You use these values to display a bounding box around the analyzed text\. The following Java and Python examples demonstrate how to display a bounding box\.
+
+------
+#### [ Java ]
 
 ```
     public void ShowBoundingBox(int imageHeight, int imageWidth, BoundingBox box, Graphics2D g2d) {
@@ -96,9 +100,42 @@ You use these values to display a bounding box around the analyzed text\. The fo
     }
 ```
 
+------
+#### [ Python ]
+
+This Python example takes in the `response` returned by the [DetectDocumentText](API_DetectDocumentText.md) API operation\.
+
+```
+def process_text_detection(response):
+
+    # Get the text blocks
+    blocks = response['Blocks']
+    width, height = image.size
+    draw = ImageDraw.Draw(image)
+    print('Detected Document Text')
+
+    # Create image showing bounding box/polygon the detected lines/text
+    for block in blocks:
+
+        draw = ImageDraw.Draw(image)
+
+        if block['BlockType'] == "LINE":
+            box=block['Geometry']['BoundingBox']
+            left = width * box['Left']
+            top = height * box['Top']
+            draw.rectangle([left,top, left + (width * box['Width']), top +(height * box['Height'])],outline='black')
+
+    # Display the image
+    image.show()
+
+    return len(blocks)
+```
+
+------
+
 ## Polygon<a name="polygon"></a>
 
-The polygon that's returned by `AnalyzeDocument` is an array of [Point](API_Point.md) objects\. Each `Point` has an X and Y coordinate for a specific location on the document page\. Like the BoundingBox coordinates, the polygon coordinates are normalized to the document width and height, and are between 0 and 1\. 
+The polygon returned by `AnalyzeDocument` is an array of [Point](API_Point.md) objects\. Each `Point` has an X and Y coordinate for a specific location on the document page\. Like the BoundingBox coordinates, the polygon coordinates are normalized to the document width and height, and are between 0 and 1\. 
 
 You can use points in the polygon array to display a finer\-grain bounding box around a `Block` object\. You calculate the position of each polygon point on the document page by using the same technique used for `BoundingBoxes`\. Multiply the X coordinate by the document page width, and multiply the Y coordinate by the document page height\.
 

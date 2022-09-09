@@ -5,7 +5,7 @@ Amazon Textract can detect selection elements such as option buttons \(radio but
 
 |  |  |  |  | 
 | --- |--- |--- |--- |
-|  |  **Agree**  |  **Neutral**  |  **Disagree**  | 
+|     |  **Agree**  |  **Neutral**  |  **Disagree**  | 
 |  **Good Service**  |  ☑  |  ☐  |  ☐  | 
 |  **Easy to Use**  |  ☐  |  ☑  |  ☐  | 
 |  **Fair Price**  |  ☑  |  ☐  |  ☐  | 
@@ -19,7 +19,7 @@ Information about a selection element is contained in a `Block` object of type `
 
 A `SELECTION_ELEMENT` `Block` object is associated with either a key\-value pair or a table cell\. A `SELECTION_ELEMENT` `Block` object contains bounding box information for a selection element in the `Geometry` field\. A `SELECTION_ELEMENT` `Block` object isn't a child of a `PAGE` `Block` object\.
 
-## Form data \(Key\-Value Pairs\)<a name="how-it-works-selectable-kvp"></a>
+## Form Data \(Key\-Value Pairs\)<a name="how-it-works-selectable-kvp"></a>
 
 A key\-value pair is used to represent a selection element that's detected on a form\. The `KEY` block contains the text for the selection element\. The `VALUE` block contains the SELECTION\_ELEMENT block\. The following diagram shows how selection elements are represented by [Block](API_Block.md) objects\.
 
@@ -110,14 +110,14 @@ The following JSON snippet is the WORD block for the word *Male*\. The WORD bloc
             }
         ]
     }, 
-    "Text": "Void", 
+    "Text": "Male", 
     "BlockType": "WORD", 
     "Confidence": 54.06439208984375, 
     "Id": "bd14cfd5-9005-498b-a7f3-45ceb171f0ff"
 },
 ```
 
-The VALUE block has a child \(Id f2f5e8cd\-e73a\-4e99\-a095\-053acd3b6bfb\) that's the SELECTION\_ELEMENT block\. 
+The VALUE block has a child \(Id f2f5e8cd\-e73a\-4e99\-a095\-053acd3b6bfb\) that is the SELECTION\_ELEMENT block\. 
 
 ```
 {
@@ -196,7 +196,7 @@ The following JSON is the SELECTION\_ELEMENT block\. The value of `SelectionStat
         ]
     }, 
     "BlockType": "SELECTION_ELEMENT", 
-    "SelectionStatus": "NOT_SELECTED", 
+    "SelectionStatus": "SELECTED", 
     "Confidence": 74.14942932128906, 
     "Id": "f2f5e8cd-e73a-4e99-a095-053acd3b6bfb"
 }
@@ -209,7 +209,7 @@ Amazon Textract can detect selection elements inside a table cell\. For example,
 
 |  |  |  |  | 
 | --- |--- |--- |--- |
-|  |  **Agree**  |  **Neutral**  |  **Disagree**  | 
+|     |  **Agree**  |  **Neutral**  |  **Disagree**  | 
 |  **Good Service**  |  ☑  |  ☐  |  ☐  | 
 |  **Easy to Use**  |  ☐  |  ☑  |  ☐  | 
 |  **Fair Price**  |  ☑  |  ☐  |  ☐  | 
@@ -254,7 +254,7 @@ The TABLE `Block` object for the previous table looks similar to this\.
 }
 ```
 
-The CELL `BLOCK` object \(Id c63ad40d\-5a14\-4646\-a8df\-2d4304213dbc\) for the cell that contains the check box *Good Service* looks like the following\. It includes a child `Block` \(Id = 26d122fd\-c5f4\-4b53\-92c4\-0ae92730ee1e\) that's the `SELECTION_ELEMENT` `Block` object for the check box\.
+The CELL `BLOCK` object \(Id c63ad40d\-5a14\-4646\-a8df\-2d4304213dbc\) for the cell that contains the check box *Good Service* looks like the following\. It includes a child `Block` \(Id = 26d122fd\-c5f4\-4b53\-92c4\-0ae92730ee1e\) that is the `SELECTION_ELEMENT` `Block` object for the check box\.
 
 ```
 {

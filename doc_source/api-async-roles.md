@@ -100,6 +100,7 @@ Amazon Textract needs permission to send a message to your Amazon SNS topic when
          }
        }
      }
+   }
    ```
 
 1. Choose **Update Trust Policy**\.

@@ -219,7 +219,7 @@ This tutorial assumes that you will be using Amazon S3 to store the files you wa
 
 ## Processing Your Documents and Sending the Text to Comprehend<a name="tutorial-step-2"></a>
 
-Your application will use the class you created in the proceeding section to:
+Your application will use the class you created in the preceding section to:
 + read documents from your Amazon S3 bucket
 + extract the text in those documents
 + send the text to Amazon Comprehend for analysis
@@ -268,7 +268,7 @@ The code below takes in the detected text and invokes the `BatchDetectSentiment`
        return sentiments, pos_score, neg_score, neutral_score, mixed_score
    ```
 
-   You may also want to perform other analysis operations, such as entity detection or key phrase detection, on your detected text\. You can write the functions to carry out these analysis operations on your text, just like you did for the proceeding sentiment analysis operation\.
+   You may also want to perform other analysis operations, such as entity detection or key phrase detection, on your detected text\. You can write the functions to carry out these analysis operations on your text, just like you did for the preceding sentiment analysis operation\.
 
 1. Write the code to carry out entity detection on your detected text\.
 
@@ -463,6 +463,6 @@ The code below takes in the detected text and invokes the `BatchDetectSentiment`
        main()
    ```
 
-1. Put the proceeding code in the section into a Python file and run it\. 
+1. Put the preceding code in the section into a Python file and run it\. 
 
 You have successfully extracted text using Amazon Textract, sent the text to Amazon Comprehend for analysis, and then saved the results in a Amazon S3 bucket\.

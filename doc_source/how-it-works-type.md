@@ -17,4 +17,4 @@ Following is an example of the standard or normalized type of the key\-value pai
                 }
 ```
 
-The receipt did not have “Vendor Name” explicitly listed\. However, the Analyze Expense API recognized the document as a receipt and categorized the value “AMAZON” as Type `VENDOR_NAME`\. 
+The receipt did not have “Vendor Name” explicitly listed\. However, the Analyze Expense API recognized the value "AMAZON" as Type `VENDOR_NAME`\. 

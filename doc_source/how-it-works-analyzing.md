@@ -1,6 +1,6 @@
 # Analyzing Documents<a name="how-it-works-analyzing"></a>
 
-Amazon Textract analyzes documents and forms for relationships among detected text\. Amazon Textract analysis operations return 4 categories of document extraction — text, forms, tables and query responses\. The analysis of invoices and receipts is handled through a different process, for more information see [Analyzing Invoices and Receipts](invoices-receipts.md)\.
+Amazon Textract analyzes documents and forms for relationships among detected text\. Amazon Textract analysis operations return 5 categories of document extraction — text, forms, tables, query responses, and signatures\. The analysis of invoices and receipts is handled through a different process, for more information see [Analyzing Invoices and Receipts](invoices-receipts.md)\.
 
 **Text Extraction**  
 The raw text extracted from a document\. For more information, see [Lines and words of text](how-it-works-lines-words.md)\.
@@ -29,6 +29,9 @@ Amazon Textract can extract tables, table cells, and the items within table cell
 |  Ana Carolina  |  123 Any Town  | 
 
 For more information, see [Tables](how-it-works-tables.md)\. Selection elements can also be extracted from tables\. For more information, see [Selection elements](how-it-works-selectables.md)\.
+
+**Signatures in Document Analysis**  
+Amazon Textract can detect the locations of signatures in text documents\. These are returned as geometry objects with bounding boxes that provide the location of a signature on the page, alongside the confidence that a signature is in that location\. If the signature feature is used by itself, Amazon Textract will return both signatures and standard text detection results\. Signature detection can be used in conjunction with other feature types such as forms, tables, and queries\. Using it with forms and tables allow signatures to be detected as part of a key value pair or within a table cell respectively\.
 
 **Queries in Document Analysis**  
 When processing a document with Amazon Textract, you may add queries to your analysis to specify what information you need\. This involves passing a question, such as "What is the customer's social security number?" to Amazon Textract\. Amazon Textract will then find the information in the document for that question and return it in a response structure separate from the rest of the document's information\. For more information about this response structure, see [Query Response Structures](queryresponse.md)\. For more information on best practices for query use, see [Best Practices for Queries](bestqueries.md)\. Queries can be processed alone, or in combination with any other `FeatureType`, such as Tables or Forms\.

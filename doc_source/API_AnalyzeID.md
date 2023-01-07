@@ -1,6 +1,6 @@
 # AnalyzeID<a name="API_AnalyzeID"></a>
 
-Analyzes identity documents for relevant information\. This information is extracted and returned as `IdentityDocumentFields`, which records both the normalized field and value of the extracted text\.Unlike other Amazon Textract operations, `AnalyzeID` doesn't return any Geometry data\.
+Analyzes identity documents for relevant information\. This information is extracted and returned as `IdentityDocumentFields`, which records both the normalized field and value of the extracted text\. Unlike other Amazon Textract operations, `AnalyzeID` doesn't return any Geometry data\.
 
 ## Request Syntax<a name="API_AnalyzeID_RequestSyntax"></a>
 
@@ -39,6 +39,47 @@ Required: Yes
    },
    "IdentityDocuments": [ 
       { 
+         "Blocks": [ 
+            { 
+               "BlockType": "string",
+               "ColumnIndex": number,
+               "ColumnSpan": number,
+               "Confidence": number,
+               "EntityTypes": [ "string" ],
+               "Geometry": { 
+                  "BoundingBox": { 
+                     "Height": number,
+                     "Left": number,
+                     "Top": number,
+                     "Width": number
+                  },
+                  "Polygon": [ 
+                     { 
+                        "X": number,
+                        "Y": number
+                     }
+                  ]
+               },
+               "Id": "string",
+               "Page": number,
+               "Query": { 
+                  "Alias": "string",
+                  "Pages": [ "string" ],
+                  "Text": "string"
+               },
+               "Relationships": [ 
+                  { 
+                     "Ids": [ "string" ],
+                     "Type": "string"
+                  }
+               ],
+               "RowIndex": number,
+               "RowSpan": number,
+               "SelectionStatus": "string",
+               "Text": "string",
+               "TextType": "string"
+            }
+         ],
          "DocumentIndex": number,
          "IdentityDocumentFields": [ 
             { 
@@ -90,7 +131,7 @@ You aren't authorized to perform the action\. Use the Amazon Resource Name \(ARN
 HTTP Status Code: 400
 
  ** BadDocumentException **   
-Amazon Textract isn't able to read the document\. For more information on the document limits in Amazon Textract, see [Hard Limits in Amazon Textract](limits.md)\.  
+Amazon Textract isn't able to read the document\. For more information on the document limits in Amazon Textract, see [Quotas in Amazon Textract](limits.md)\.  
 HTTP Status Code: 400
 
  ** DocumentTooLargeException **   

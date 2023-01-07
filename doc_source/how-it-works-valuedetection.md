@@ -1,6 +1,6 @@
 # ValueDetection<a name="how-it-works-valuedetection"></a>
 
-The following is an example shows the “value” of the key\-value pair\.
+The following is an example that shows the “value” of the key\-value pair\.
 
 ```
                {

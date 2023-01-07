@@ -2,13 +2,11 @@
 
 The following code examples show how to use Amazon Textract with an AWS software development kit \(SDK\)\. 
 
-The examples are divided into the following categories:
+*Actions* are code excerpts that show you how to call individual service functions\.
 
-**Actions**  
-Code excerpts that show you how to call individual service functions\.
+*Scenarios* are code examples that show you how to accomplish a specific task by calling multiple functions within the same service\.
 
-**Cross\-service examples**  
-Sample applications that work across multiple AWS services\.
+*Cross\-service examples* are sample applications that work across multiple AWS services\.
 
 For a complete list of AWS SDK developer guides and code examples, see [Using Amazon Textract with an AWS SDK](sdk-general-information-section.md)\. This topic also includes information about getting started and details about previous SDK versions\.
 
@@ -19,6 +17,8 @@ For a complete list of AWS SDK developer guides and code examples, see [Using Am
   + [Get data about a document analysis job](example_textract_GetDocumentAnalysis_section.md)
   + [Start asynchronous analysis of a document](example_textract_StartDocumentAnalysis_section.md)
   + [Start asynchronous text detection](example_textract_StartDocumentTextDetection_section.md)
++ [Scenarios](service_code_examples_scenarios.md)
+  + [Get started with document analysis](example_textract_Scenario_GettingStarted_section.md)
 + [Cross\-service examples](service_code_examples_cross-service_examples.md)
   + [Create an Amazon Textract explorer application](example_cross_TextractExplorer_section.md)
   + [Detect entities in text extracted from an image](example_cross_TextractComprehendDetectEntities_section.md)

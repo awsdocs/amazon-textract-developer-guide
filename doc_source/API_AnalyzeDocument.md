@@ -6,6 +6,7 @@ The types of information returned are as follows:
 + Form data \(key\-value pairs\)\. The related information is returned in two [Block](API_Block.md) objects, each of type `KEY_VALUE_SET`: a KEY `Block` object and a VALUE `Block` object\. For example, *Name: Ana Silva Carolina* contains a key and value\. *Name:* is the key\. *Ana Silva Carolina* is the value\.
 + Table and table cell data\. A TABLE `Block` object contains information about a detected table\. A CELL `Block` object is returned for each cell in a table\.
 + Lines and words of text\. A LINE `Block` object contains one or more WORD `Block` objects\. All lines and words that are detected in the document are returned \(including text that doesn't have a relationship with the value of `FeatureTypes`\)\. 
++ Signatures\. A SIGNATURE `Block` object contains the location information of a signature in a document\. If used in conjunction with forms or tables, a signature can be given a Key\-Value pairing or be detected in the cell of a table\.
 + Query\. A QUERY Block object contains the query text, alias and link to the associated Query results block object\.
 + Query Result\. A QUERY\_RESULT Block object contains the answer to the query and an ID that connects it to the query asked\. This Block also contains a confidence score\.
 
@@ -62,9 +63,9 @@ Type: [Document](API_Document.md) object
 Required: Yes
 
  ** [FeatureTypes](#API_AnalyzeDocument_RequestSyntax) **   <a name="Textract-AnalyzeDocument-request-FeatureTypes"></a>
-A list of the types of analysis to perform\. Add TABLES to the list to return information about the tables that are detected in the input document\. Add FORMS to return detected form data\. To perform both types of analysis, add TABLES and FORMS to `FeatureTypes`\. All lines and words detected in the document are included in the response \(including text that isn't related to the value of `FeatureTypes`\)\.   
+A list of the types of analysis to perform\. Add TABLES to the list to return information about the tables that are detected in the input document\. Add FORMS to return detected form data\. Add SIGNATURES to return the locations of detected signatures\. To perform both forms and table analysis, add TABLES and FORMS to `FeatureTypes`\. To detect signatures within form data and table data, add SIGNATURES to either TABLES or FORMS\. All lines and words detected in the document are included in the response \(including text that isn't related to the value of `FeatureTypes`\)\.   
 Type: Array of strings  
-Valid Values:` TABLES | FORMS | QUERIES`   
+Valid Values:` TABLES | FORMS | QUERIES | SIGNATURES`   
 Required: Yes
 
  ** [HumanLoopConfig](#API_AnalyzeDocument_RequestSyntax) **   <a name="Textract-AnalyzeDocument-request-HumanLoopConfig"></a>
@@ -163,7 +164,7 @@ You aren't authorized to perform the action\. Use the Amazon Resource Name \(ARN
 HTTP Status Code: 400
 
  ** BadDocumentException **   
-Amazon Textract isn't able to read the document\. For more information on the document limits in Amazon Textract, see [Hard Limits in Amazon Textract](limits.md)\.  
+Amazon Textract isn't able to read the document\. For more information on the document limits in Amazon Textract, see [Quotas in Amazon Textract](limits.md)\.  
 HTTP Status Code: 400
 
  ** DocumentTooLargeException **   

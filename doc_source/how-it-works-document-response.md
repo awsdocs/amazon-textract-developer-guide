@@ -6,3 +6,4 @@ Amazon Textract operations return different types of objects depending on the op
 + [Text Detection and Document Analysis Response Objects](how-it-works-document-layout.md)
 + [Invoice and Receipt Response Objects](expensedocuments.md)
 + [Identity Documentation Response Objects](identitydocumentfields.md)
++ [Analyze Lending Response Objects](lending-response-objects.md)

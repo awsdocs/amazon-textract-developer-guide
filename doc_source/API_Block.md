@@ -20,11 +20,13 @@ In text analysis operations, the following types are returned:
 +  *LINE* \- A string of tab\-delimited, contiguous words that are detected on a document page\.
 +  *TABLE* \- A table that's detected on a document page\. A table is grid\-based information with two or more rows or columns, with a cell span of one row and one column each\. 
 +  *CELL* \- A cell within a detected table\. The cell is the parent of the block that contains the text in the cell\.
++  *MERGED\_CELL* \- A cell in a table whose content spans more than one row or column\. The `Relationships` array for this cell contain data from individual cells\.
 +  *SELECTION\_ELEMENT* \- A selection element such as an option button \(radio button\) or a check box that's detected on a document page\. Use the value of `SelectionStatus` to determine the status of the selection element\.
++  *SIGNATURE* \- The location and confidene score of a signature detected on a document page\. Can be returned as part of a Key\-Value pair or a detected cell\.
 +  *QUERY* \- A question asked during the call of AnalyzeDocument\. Contains an alias and an ID that attaches it to its answer\.
 +  *QUERY\_RESULT* \- A response to a question asked during the call of analyze document\. Comes with an alias and ID for ease of locating in a response\. Also contains location and confidence score\.
 Type: String  
-Valid Values:` KEY_VALUE_SET | PAGE | LINE | WORD | TABLE | CELL | SELECTION_ELEMENT | MERGED_CELL | TITLE | QUERY | QUERY_RESULT`   
+Valid Values:` KEY_VALUE_SET | PAGE | LINE | WORD | TABLE | CELL | SELECTION_ELEMENT | MERGED_CELL | TITLE | QUERY | QUERY_RESULT | SIGNATURE`   
 Required: No
 
  ** ColumnIndex **   <a name="Textract-Type-Block-ColumnIndex"></a>
@@ -34,7 +36,7 @@ Valid Range: Minimum value of 0\.
 Required: No
 
  ** ColumnSpan **   <a name="Textract-Type-Block-ColumnSpan"></a>
-The number of columns that a table cell spans\. Currently this value is always 1, even if the number of columns spanned is greater than 1\. `ColumnSpan` isn't returned by `DetectDocumentText` and `GetDocumentTextDetection`\.   
+The number of columns that a table cell spans\. `ColumnSpan` isn't returned by `DetectDocumentText` and `GetDocumentTextDetection`\.   
 Type: Integer  
 Valid Range: Minimum value of 0\.  
 Required: No
@@ -90,7 +92,7 @@ Valid Range: Minimum value of 0\.
 Required: No
 
  ** RowSpan **   <a name="Textract-Type-Block-RowSpan"></a>
-The number of rows that a table cell spans\. Currently this value is always 1, even if the number of rows spanned is greater than 1\. `RowSpan` isn't returned by `DetectDocumentText` and `GetDocumentTextDetection`\.  
+The number of rows that a table cell spans\. `RowSpan` isn't returned by `DetectDocumentText` and `GetDocumentTextDetection`\.  
 Type: Integer  
 Valid Range: Minimum value of 0\.  
 Required: No

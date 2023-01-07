@@ -4,6 +4,11 @@ The structure holding all the information returned by AnalyzeExpense
 
 ## Contents<a name="API_ExpenseDocument_Contents"></a>
 
+ ** Blocks **   <a name="Textract-Type-ExpenseDocument-Blocks"></a>
+This is a block object, the same as reported when DetectDocumentText is run on a document\. It provides word level recognition of text\.  
+Type: Array of [Block](API_Block.md) objects  
+Required: No
+
  ** ExpenseIndex **   <a name="Textract-Type-ExpenseDocument-ExpenseIndex"></a>
 Denotes which invoice or receipt in the document the information is coming from\. First document will be 1, the second 2, and so on\.  
 Type: Integer  

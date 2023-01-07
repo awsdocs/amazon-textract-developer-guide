@@ -30,36 +30,39 @@
         },
 ```
 
- These are two examples of IdentityDocumentFields cut from a longer response\. There is a seperation between the type detected and the the value for that type\. Here, it is the first and last name respectively\. This structure repeats with all contained information\. If a type is not recognized as a normalized field, it will be listed as "other"\. 
+These are two examples of IdentityDocumentFields cut from a longer response\. There is a seperation between the type detected and the value for that type\. Here, it is the first and last name respectively\. This structure repeats with all contained information\. If a type is not recognized as a normalized field, it will be listed as "other"\. Additionally, AnalyzeID returns a Blocks object, the same as document text detection so you can have access to the full text of the document\.
 
 Following is a list of normalized fields for Driver's Licenses:
-+  first name 
-+  last name 
-+  middle name 
-+  suffix 
-+  city in address 
-+  zip code in address 
-+  state in address 
-+  county 
-+  document number 
-+  expiration date 
-+  date of birth 
-+  state name 
-+  date of issue 
-+  class 
-+  restrictions 
-+  endorsements 
-+  id type 
-+  veteran 
-+  address 
++ First Name — FIRST\_NAME
++ Last Name — LAST\_NAME 
++ Middle Name — MIDDLE\_NAME 
++ Suffix — SUFFIX
++ City in Address — CITY\_IN\_ADDRESS 
++ Zip Code In Address — ZIP\_CODE\_IN\_ADDRESS
++ State In Address — STATE\_IN\_ADDRESS
++ County — COUNTY
++ Document Number — DOCUMENT\_NUMBER
++ Expiration Date — EXPIRATON\_DATE
++ Date of Birth — DATE\_OF\_BIRTH
++ State Name — STATE\_NAME
++ Date of Issue — DATE\_OF\_ISSUE
++ Class — CLASS
++ Restrictions — RESTRICTIONS
++ Endorsements — ENDORSEMENTS
++ Id Type — ID\_TYPE
++ Veteran — VETERAN
++ Address — ADDRESS
+
+  
 
 Following is a list of normalized fields for U\.S Passports:
-+  first name 
-+  last name 
-+  middle name 
-+  document number 
-+  expiration date 
-+  date of birth 
-+ place of birth
-+  date of issue 
-+  id type 
++ First Name — FIRST\_NAME
++ Last Name — LAST\_NAME 
++ Middle Name — MIDDLE\_NAME 
++ Document Number — DOCUMENT\_NUMBER
++ Expiration Date — EXPIRATON\_DATE
++ Date of Birth — DATE\_OF\_BIRTH
++ Place of Birth — PLACE\_OF\_BIRTH
++ Date of Issue — DATE\_OF\_ISSUE
++ Id Type — ID\_TYPE
++ MRZ Code — MRZ\_CODE

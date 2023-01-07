@@ -103,3 +103,57 @@ Amazon Textract needs permission to send a message to your Amazon SNS topic when
    ```
 
 1. Choose **Update Trust Policy**\.
+
+## Permissions for Output Configuration<a name="async-output-config"></a>
+
+You can have Amazon Textract send the results of asynchronous analysis operations to a designated Amazon S3 bucket by using the `OutputConfig` feature of asynchrnous API operations\. If you are using the `OutputConfig` option for an asynchronous analysis operation to customize where the output of your operations is sent, additional configuration is required\. You must let Amazon Textract decrypt your uploads and provide permissions for certain Amazon S3 operations\.
+
+**To Allow Decryption of S3 Bucket Uploads**
++ You will need to provide the appropriate Users with the correct Amazon S3 permissions\. 
+
+  Navigate to the Users section of the [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/) and select the User you created in **Step 1** of the **To configure Amazon Textract** section above\. Choose to "Add inline policy" to your User and attach a JSON policy that includes the `s3:GetObject`, and `s3:PutObject`, `s3:ListMultipartUploadParts`, `s3:ListBucketMultipartUploads`, and `s3:AbortMultipartUpload` operations\. Your JSON may look like the following:
+
+  ```
+  {
+      "Version": "2012-10-17",
+      "Statement": [
+          {
+              "Effect": "Allow",
+              "Action": [
+                  "s3:Get*",
+                  "s3:List*",
+                  "s3:PutObject",
+                  "s3:GetObject",
+                  "s3-object-lambda:Get*",
+                  "s3-object-lambda:List*",
+                  "s3:ListMultipartUploadParts",
+                  "s3:ListBucketMultipartUploads",
+                  "s3:AbortMultipartUpload"
+              ],
+              "Resource": "*"
+          }
+      ]
+  }
+  ```
+
+**To Provide AWS KMS Key Permissions**
++ You must[add](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying.html#key-policy-modifying-how-to-console-policy-view) permissions to your AWS Key Management Service key that will allow your service role to decrypt your uploads\. The service role will need permission for `kms:GenerateDataKey` and `kms:Decrypt` actions\. Ensure that the service role you created in **Step 7** in the **To configure Amazon Textract** section has a permissions policy that looks like the following example\. 
+
+  In the following example, replace `ARN from Step 7` with the ARN of your service role:
+
+  ```
+  {
+      "Sid": "Decrypt only",
+      "Effect": "Allow",
+      "Principal": {
+          "AWS": "ARN from Step 7"
+      },
+      "Action": [
+          "kms:Decrypt",
+          "kms:ReEncrypt",
+          "kms:GenerateDataKey",
+          "kms:DescribeKey"
+      ],
+      "Resource": "*"
+  }
+  ```

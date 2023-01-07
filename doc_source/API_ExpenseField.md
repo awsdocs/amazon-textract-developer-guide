@@ -4,6 +4,16 @@ Breakdown of detected information, seperated into the catagories Type, LabelDete
 
 ## Contents<a name="API_ExpenseField_Contents"></a>
 
+ ** Currency **   <a name="Textract-Type-ExpenseField-Currency"></a>
+Shows the kind of currency, both the code and confidence associated with any monatary value detected\.  
+Type: [ExpenseCurrency](API_ExpenseCurrency.md) object  
+Required: No
+
+ ** GroupProperties **   <a name="Textract-Type-ExpenseField-GroupProperties"></a>
+Shows which group a response object belongs to, such as whether an address line belongs to the vendor's address or the recipent's address\.  
+Type: Array of [ExpenseGroupProperty](API_ExpenseGroupProperty.md) objects  
+Required: No
+
  ** LabelDetection **   <a name="Textract-Type-ExpenseField-LabelDetection"></a>
 The explicitly stated label of a detected element\.  
 Type: [ExpenseDetection](API_ExpenseDetection.md) object  

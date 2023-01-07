@@ -1,6 +1,6 @@
 # NotificationChannel<a name="API_NotificationChannel"></a>
 
-The Amazon Simple Notification Service \(Amazon SNS\) topic to which Amazon Textract publishes the completion status of an asynchronous document operation, such as [StartDocumentTextDetection](API_StartDocumentTextDetection.md)\. 
+The Amazon Simple Notification Service \(Amazon SNS\) topic to which Amazon Textract publishes the completion status of an asynchronous document operation\. 
 
 ## Contents<a name="API_NotificationChannel_Contents"></a>
 

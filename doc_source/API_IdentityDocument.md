@@ -4,6 +4,11 @@ The structure that lists each document processed in an AnalyzeID operation\.
 
 ## Contents<a name="API_IdentityDocument_Contents"></a>
 
+ ** Blocks **   <a name="Textract-Type-IdentityDocument-Blocks"></a>
+Individual word recognition, as returned by document detection\.  
+Type: Array of [Block](API_Block.md) objects  
+Required: No
+
  ** DocumentIndex **   <a name="Textract-Type-IdentityDocument-DocumentIndex"></a>
 Denotes the placement of a document in the IdentityDocument list\. The first document is marked 1, the second 2 and so on\.  
 Type: Integer  

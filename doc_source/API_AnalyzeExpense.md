@@ -44,6 +44,47 @@ Required: Yes
    },
    "ExpenseDocuments": [ 
       { 
+         "Blocks": [ 
+            { 
+               "BlockType": "string",
+               "ColumnIndex": number,
+               "ColumnSpan": number,
+               "Confidence": number,
+               "EntityTypes": [ "string" ],
+               "Geometry": { 
+                  "BoundingBox": { 
+                     "Height": number,
+                     "Left": number,
+                     "Top": number,
+                     "Width": number
+                  },
+                  "Polygon": [ 
+                     { 
+                        "X": number,
+                        "Y": number
+                     }
+                  ]
+               },
+               "Id": "string",
+               "Page": number,
+               "Query": { 
+                  "Alias": "string",
+                  "Pages": [ "string" ],
+                  "Text": "string"
+               },
+               "Relationships": [ 
+                  { 
+                     "Ids": [ "string" ],
+                     "Type": "string"
+                  }
+               ],
+               "RowIndex": number,
+               "RowSpan": number,
+               "SelectionStatus": "string",
+               "Text": "string",
+               "TextType": "string"
+            }
+         ],
          "ExpenseIndex": number,
          "LineItemGroups": [ 
             { 
@@ -52,6 +93,16 @@ Required: Yes
                   { 
                      "LineItemExpenseFields": [ 
                         { 
+                           "Currency": { 
+                              "Code": "string",
+                              "Confidence": number
+                           },
+                           "GroupProperties": [ 
+                              { 
+                                 "Id": "string",
+                                 "Types": [ "string" ]
+                              }
+                           ],
                            "LabelDetection": { 
                               "Confidence": number,
                               "Geometry": { 
@@ -101,6 +152,16 @@ Required: Yes
          ],
          "SummaryFields": [ 
             { 
+               "Currency": { 
+                  "Code": "string",
+                  "Confidence": number
+               },
+               "GroupProperties": [ 
+                  { 
+                     "Id": "string",
+                     "Types": [ "string" ]
+                  }
+               ],
                "LabelDetection": { 
                   "Confidence": number,
                   "Geometry": { 
@@ -170,7 +231,7 @@ You aren't authorized to perform the action\. Use the Amazon Resource Name \(ARN
 HTTP Status Code: 400
 
  ** BadDocumentException **   
-Amazon Textract isn't able to read the document\. For more information on the document limits in Amazon Textract, see [Hard Limits in Amazon Textract](limits.md)\.  
+Amazon Textract isn't able to read the document\. For more information on the document limits in Amazon Textract, see [Quotas in Amazon Textract](limits.md)\.  
 HTTP Status Code: 400
 
  ** DocumentTooLargeException **   

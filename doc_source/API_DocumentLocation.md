@@ -1,6 +1,6 @@
 # DocumentLocation<a name="API_DocumentLocation"></a>
 
-The Amazon S3 bucket that contains the document to be processed\. It's used by asynchronous operations such as [StartDocumentTextDetection](API_StartDocumentTextDetection.md)\.
+The Amazon S3 bucket that contains the document to be processed\. It's used by asynchronous operations\.
 
 The input document can be an image file in JPEG or PNG format\. It can also be a file in PDF format\.
 

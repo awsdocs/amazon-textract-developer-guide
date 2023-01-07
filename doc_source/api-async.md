@@ -2,13 +2,17 @@
 
 Amazon Textract provides an asynchronous API that you can use to process multipage documents in PDF or TIFF format\. You can also use asynchronous operations to process single\-page documents that are in JPEG, PNG, TIFF, or PDF format\. 
 
-The information in this topic uses text detection operations to show how to use Amazon Textract asynchronous operations\. The same approach works with the text analysis operations of [StartDocumentAnalysis](API_StartDocumentAnalysis.md) and [GetDocumentAnalysis](API_GetDocumentAnalysis.md)\. It also works the same with [StartExpenseAnalysis](API_StartExpenseAnalysis.md) and [GetExpenseAnalysis](API_GetExpenseAnalysis.md)\. 
+The information in this topic uses text detection operations to show how you to use Amazon Textract asynchronous operations\. You can use the same approach with the text analysis operations of [StartDocumentAnalysis](API_StartDocumentAnalysis.md) and [GetDocumentAnalysis](API_GetDocumentAnalysis.md)\. It also works the same with [StartExpenseAnalysis](API_StartExpenseAnalysis.md) and [GetExpenseAnalysis](API_GetExpenseAnalysis.md)\. 
 
 For an example, see [Detecting or Analyzing Text in a Multipage Document](async-analyzing-with-sqs.md)\.
 
+If you are analyzing lending documents, you can use the `StartLendingAnalysis` operation to classify document pages and send the classified pages to an Amazon Textract analysis operation\. The pages are routed to analysis operations depending on their assigned class\. 
+
+You can retreive results for individual pages by using the `GetLendingAnalysis` operation, or retrieve a summary of the analysis with `GetLendingAnalysisSummary`\.
+
 Amazon Textract asynchronously processes a document stored in an Amazon S3 bucket\. You start processing by calling a `Start` operation, such as [StartDocumentTextDetection](API_StartDocumentTextDetection.md)\. The completion status of the request is published to an Amazon Simple Notification Service \(Amazon SNS\) topic\. To get the completion status from the Amazon SNS topic, you can use an Amazon Simple Queue Service \(Amazon SQS\) queue or an AWS Lambda function\. After you have the completion status, you call a `Get` operation, such as [GetDocumentTextDetection](API_GetDocumentTextDetection.md), to get the results of the request\. 
 
-Results of asynchronous calls are encrypted and stored for 7 days in a Amazon Textract owned bucket by default, unless you specify an Amazon S3 bucket using an operation's `OutputConfig` argument\.
+Results of asynchronous calls are encrypted and stored for 7 days in a Amazon Textract owned bucket by default, unless you specify an Amazon S3 bucket using an operation's `OutputConfig` argument\. For information on how to let Amazon Textract send encrypted documents to your Amazon S3 bucket, see [Permissions for Output Configuration](api-async-roles.md#async-output-config)\.
 
 The following table shows the corresponding Start and Get operations for the different types of asynchronous processing supported by Amazon Textract:
 
@@ -20,6 +24,7 @@ The following table shows the corresponding Start and Get operations for the dif
 | Text Detection | StartDocumentTextDetection | GetDocumentTextDetection | 
 | Text Analysis | StartDocumentAnalysis | GetDocumentAnalysis | 
 | Expense Analysis | StartExpenseAnalysis | GetExpenseAnalysis | 
+| Lending Analysis | StartLendingAnalysis | GetLendingAnalysis, GetLendingAnalysisSummary | 
 
 For an example that uses AWS Lambda functions, see [Large scale document processing with Amazon Textract](https://github.com/aws-samples/amazon-textract-serverless-large-scale-document-processing)\.
 

@@ -52,6 +52,47 @@ Required: No
    },
    "ExpenseDocuments": [ 
       { 
+         "Blocks": [ 
+            { 
+               "BlockType": "string",
+               "ColumnIndex": number,
+               "ColumnSpan": number,
+               "Confidence": number,
+               "EntityTypes": [ "string" ],
+               "Geometry": { 
+                  "BoundingBox": { 
+                     "Height": number,
+                     "Left": number,
+                     "Top": number,
+                     "Width": number
+                  },
+                  "Polygon": [ 
+                     { 
+                        "X": number,
+                        "Y": number
+                     }
+                  ]
+               },
+               "Id": "string",
+               "Page": number,
+               "Query": { 
+                  "Alias": "string",
+                  "Pages": [ "string" ],
+                  "Text": "string"
+               },
+               "Relationships": [ 
+                  { 
+                     "Ids": [ "string" ],
+                     "Type": "string"
+                  }
+               ],
+               "RowIndex": number,
+               "RowSpan": number,
+               "SelectionStatus": "string",
+               "Text": "string",
+               "TextType": "string"
+            }
+         ],
          "ExpenseIndex": number,
          "LineItemGroups": [ 
             { 
@@ -60,6 +101,16 @@ Required: No
                   { 
                      "LineItemExpenseFields": [ 
                         { 
+                           "Currency": { 
+                              "Code": "string",
+                              "Confidence": number
+                           },
+                           "GroupProperties": [ 
+                              { 
+                                 "Id": "string",
+                                 "Types": [ "string" ]
+                              }
+                           ],
                            "LabelDetection": { 
                               "Confidence": number,
                               "Geometry": { 
@@ -109,6 +160,16 @@ Required: No
          ],
          "SummaryFields": [ 
             { 
+               "Currency": { 
+                  "Code": "string",
+                  "Confidence": number
+               },
+               "GroupProperties": [ 
+                  { 
+                     "Id": "string",
+                     "Types": [ "string" ]
+                  }
+               ],
                "LabelDetection": { 
                   "Confidence": number,
                   "Geometry": { 
@@ -214,7 +275,7 @@ Amazon Textract experienced a service issue\. Try your call again\.
 HTTP Status Code: 500
 
  ** InvalidJobIdException **   
-An invalid job identifier was passed to [GetDocumentAnalysis](API_GetDocumentAnalysis.md) or to [GetDocumentAnalysis](API_GetDocumentAnalysis.md)\.  
+An invalid job identifier was passed to an asynchronous analysis operation\.  
 HTTP Status Code: 400
 
  ** InvalidKMSKeyException **   

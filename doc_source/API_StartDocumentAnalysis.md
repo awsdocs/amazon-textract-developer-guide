@@ -62,7 +62,7 @@ Required: Yes
  ** [FeatureTypes](#API_StartDocumentAnalysis_RequestSyntax) **   <a name="Textract-StartDocumentAnalysis-request-FeatureTypes"></a>
 A list of the types of analysis to perform\. Add TABLES to the list to return information about the tables that are detected in the input document\. Add FORMS to return detected form data\. To perform both types of analysis, add TABLES and FORMS to `FeatureTypes`\. All lines and words detected in the document are included in the response \(including text that isn't related to the value of `FeatureTypes`\)\.   
 Type: Array of strings  
-Valid Values:` TABLES | FORMS | QUERIES`   
+Valid Values:` TABLES | FORMS | QUERIES | SIGNATURES`   
 Required: Yes
 
  ** [JobTag](#API_StartDocumentAnalysis_RequestSyntax) **   <a name="Textract-StartDocumentAnalysis-request-JobTag"></a>
@@ -121,7 +121,7 @@ You aren't authorized to perform the action\. Use the Amazon Resource Name \(ARN
 HTTP Status Code: 400
 
  ** BadDocumentException **   
-Amazon Textract isn't able to read the document\. For more information on the document limits in Amazon Textract, see [Hard Limits in Amazon Textract](limits.md)\.  
+Amazon Textract isn't able to read the document\. For more information on the document limits in Amazon Textract, see [Quotas in Amazon Textract](limits.md)\.  
 HTTP Status Code: 400
 
  ** DocumentTooLargeException **   

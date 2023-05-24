@@ -137,7 +137,7 @@ You can have Amazon Textract send the results of asynchronous analysis operation
   ```
 
 **To Provide AWS KMS Key Permissions**
-+ You must[add](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying.html#key-policy-modifying-how-to-console-policy-view) permissions to your AWS Key Management Service key that will allow your service role to decrypt your uploads\. The service role will need permission for `kms:GenerateDataKey` and `kms:Decrypt` actions\. Ensure that the service role you created in **Step 7** in the **To configure Amazon Textract** section has a permissions policy that looks like the following example\. 
++ You must [add](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying.html#key-policy-modifying-how-to-console-policy-view) permissions to your AWS Key Management Service key that will allow your service role to decrypt your uploads\. The service role will need permission for `kms:GenerateDataKey` and `kms:Decrypt` actions\. Ensure that the service role you created in **Step 7** in the **To configure Amazon Textract** section has a permissions policy that looks like the following example\. 
 
   In the following example, replace `ARN from Step 7` with the ARN of your service role:
 
